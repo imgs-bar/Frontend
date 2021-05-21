@@ -214,7 +214,7 @@ export default function Index() {
                 setState(state => ({...state, showModal: true, invite: ''}))
               }
             >
-              Login
+              Login / Register
             </Button>
             <Button
               size="large"
@@ -231,23 +231,8 @@ export default function Index() {
                 (window.location.href = 'https://discord.gg/QUU7VjhFfM')
               }
             >
-              Join our Discord
+              Discord
             </Button>
-            <div style={{marginTop: '8px'}}>
-              <Button
-                size="large"
-                icon={<LockOutlined />}
-                style={{
-                  marginRight: '15px',
-                  borderRadius: '5px',
-                  height: '40px',
-                  borderColor: 'white',
-                }}
-                onClick={() => setState(state => ({...state, showModal: true}))}
-              >
-                Register
-              </Button>
-            </div>
             <Modal
               centered
               style={{border: 0}}
