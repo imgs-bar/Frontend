@@ -100,7 +100,7 @@ export default function Navbar({
           style={{marginTop: '0.8rem'}}
           onClick={() => router.push('/dashboard')}
         >
-          <h2>Higure</h2>
+          <h2>imgs.bar</h2>
         </Button>
       </div>
 

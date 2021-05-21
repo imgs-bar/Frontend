@@ -20,7 +20,7 @@ import {useUser} from '../components/user';
 const {useForm} = Form;
 const {TabPane} = Tabs;
 
-export default function Index({code}: {code: any}) {
+export default function Index() {
   const initialState = {
     showModal: false,
     resetPasswordModal: false,
@@ -40,12 +40,13 @@ export default function Index({code}: {code: any}) {
   const {user, setUser} = useUser();
   const [bruh, confirmBruh] = React.useState(false);
   const [bruhReg, confirmBruhReg] = React.useState(false);
+  const {code} = router.query;
 
   useEffect(() => {
     if (user) {
       router.push('/dashboard');
     } else if (code) {
-      setState(state => ({...state, invite: code, showModal: true}));
+      setState(state => ({...state, invite: code as string, showModal: true}));
     }
   }, []);
 
@@ -182,33 +183,6 @@ export default function Index({code}: {code: any}) {
     }
   };
 
-  const resetPassword = async () => {
-    try {
-      await passwordResetForm.validateFields();
-      const data = await sendPasswordReset(email);
-
-      if (data.success)
-        notification.success({
-          message: 'Success',
-          description:
-            "If a user exist with that email we'll send over the password reset instructions.",
-        });
-    } catch (err) {
-      if (err instanceof APIError)
-        return notification.error({
-          message: 'Something went wrong',
-          description: err.message,
-        });
-
-      notification.error({
-        message: 'Provide the required fields',
-        description:
-          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
-          '.',
-      });
-    }
-  };
-
   if (user) return null;
 
   return (
@@ -221,7 +195,7 @@ export default function Index({code}: {code: any}) {
           <div style={{marginLeft: '8px'}}>
             <img
               className={styles.logo}
-              src="https://media.discordapp.net/attachments/821328760707874876/821390673580130324/higure._7.png"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU1S7Oy7WX6At6X6YrsK--udw5CKZlTUtKqw&usqp=CAU"
               alt=""
             />
           </div>
@@ -236,9 +210,11 @@ export default function Index({code}: {code: any}) {
                 height: '40px',
                 borderColor: 'white',
               }}
-              onClick={() => setState(state => ({...state, showModal: true}))}
+              onClick={() =>
+                setState(state => ({...state, showModal: true, invite: ''}))
+              }
             >
-              Login/Register
+              Login
             </Button>
             <Button
               size="large"
@@ -257,241 +233,210 @@ export default function Index({code}: {code: any}) {
             >
               Join our Discord
             </Button>
+            <div style={{marginTop: '8px'}}>
+              <Button
+                size="large"
+                icon={<LockOutlined />}
+                style={{
+                  marginRight: '15px',
+                  borderRadius: '5px',
+                  height: '40px',
+                  borderColor: 'white',
+                }}
+                onClick={() => setState(state => ({...state, showModal: true}))}
+              >
+                Register
+              </Button>
+            </div>
+            <Modal
+              centered
+              style={{border: 0}}
+              className="authModal"
+              visible={showModal}
+              onCancel={closeModal}
+              footer={null}
+              title={
+                <Tabs
+                  centered
+                  defaultActiveKey={code ? '2' : '1'}
+                  type="card"
+                  onTabClick={resetForms}
+                >
+                  <TabPane tab="Login" key="1">
+                    <Form form={form} name="login" style={{marginTop: '10px'}}>
+                      <Form.Item
+                        name="username"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Provide a valid username',
+                            min: 3,
+                          },
+                        ]}
+                      >
+                        <Input
+                          size="large"
+                          onPressEnter={login}
+                          placeholder="Username"
+                          prefix={<UserOutlined />}
+                          onChange={val =>
+                            setInput('username', val.target.value)
+                          }
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              'Provide a valid password (up to 100 characters)',
+                            min: 5,
+                            max: 100,
+                          },
+                        ]}
+                      >
+                        <Input.Password
+                          size="large"
+                          onPressEnter={login}
+                          placeholder="Password"
+                          prefix={<LockOutlined />}
+                          onChange={val =>
+                            setInput('password', val.target.value)
+                          }
+                        />
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          block
+                          size="large"
+                          onClick={login}
+                          loading={bruh}
+                        >
+                          Login
+                        </Button>
+
+                        <Button
+                          href={`${process.env.BACKEND_URL}/auth/discord/login`}
+                          icon={<SiDiscord style={{marginRight: '8px'}} />}
+                          type="primary"
+                          block
+                          size="large"
+                          style={{
+                            marginTop: '10px',
+                            marginBottom: '-35px',
+                            backgroundColor: '#7289DA',
+                            border: 'none',
+                          }}
+                        >
+                          Login with Discord
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </TabPane>
+
+                  <TabPane tab="Register" key="2">
+                    <Form form={form} name="login" style={{marginTop: '10px'}}>
+                      <Form.Item
+                        name="username"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Provide a valid username',
+                            min: 3,
+                          },
+                        ]}
+                      >
+                        <Input
+                          size="large"
+                          placeholder="Username"
+                          onPressEnter={register}
+                          prefix={<UserOutlined />}
+                          onChange={val =>
+                            setInput('username', val.target.value)
+                          }
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              'Provide a valid password (up to 100 characters)',
+                            min: 5,
+                            max: 100,
+                          },
+                        ]}
+                      >
+                        <Input.Password
+                          size="large"
+                          placeholder="Password"
+                          onPressEnter={register}
+                          prefix={<LockOutlined />}
+                          onChange={val =>
+                            setInput('password', val.target.value)
+                          }
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="email"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Provide a valid email',
+                            type: 'email',
+                          },
+                        ]}
+                      >
+                        <Input
+                          size="large"
+                          placeholder="Email"
+                          onPressEnter={register}
+                          prefix={<MailOutlined />}
+                          onChange={val => setInput('email', val.target.value)}
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="invite"
+                        rules={[
+                          {required: true, message: 'Provide a valid invite'},
+                        ]}
+                        initialValue={invite ? invite : ''}
+                      >
+                        <Input
+                          size="large"
+                          placeholder="Invite"
+                          onPressEnter={register}
+                          prefix={<CheckOutlined />}
+                          onChange={val => setInput('invite', val.target.value)}
+                        />
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          block
+                          size="large"
+                          onClick={register}
+                          style={{marginBottom: '-30px'}}
+                          loading={bruhReg}
+                        >
+                          Register
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </TabPane>
+                </Tabs>
+              }
+            />
           </div>
-          <Modal
-            centered
-            style={{border: 0}}
-            className="authModal"
-            visible={showModal}
-            onCancel={closeModal}
-            footer={null}
-            title={
-              <Tabs
-                centered
-                defaultActiveKey={code ? '2' : '1'}
-                type="card"
-                onTabClick={resetForms}
-              >
-                <TabPane tab="Login" key="1">
-                  <Form form={form} name="login" style={{marginTop: '10px'}}>
-                    <Form.Item
-                      name="username"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Provide a valid username',
-                          min: 3,
-                        },
-                      ]}
-                    >
-                      <Input
-                        size="large"
-                        onPressEnter={login}
-                        placeholder="Username"
-                        prefix={<UserOutlined />}
-                        onChange={val => setInput('username', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message:
-                            'Provide a valid password (up to 100 characters)',
-                          min: 5,
-                          max: 100,
-                        },
-                      ]}
-                    >
-                      <Input.Password
-                        size="large"
-                        onPressEnter={login}
-                        placeholder="Password"
-                        prefix={<LockOutlined />}
-                        onChange={val => setInput('password', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        type="link"
-                        className={styles.forgotPassword}
-                        onClick={() =>
-                          setState(state => ({
-                            ...state,
-                            showModal: false,
-                            resetPasswordModal: true,
-                          }))
-                        }
-                      >
-                        Forgot your password? Reset
-                      </Button>
-
-                      <Button block size="large" onClick={login} loading={bruh}>
-                        Login
-                      </Button>
-
-                      <Button
-                        href={`${process.env.BACKEND_URL}/auth/discord/login`}
-                        icon={<SiDiscord style={{marginRight: '8px'}} />}
-                        type="primary"
-                        block
-                        size="large"
-                        style={{
-                          marginTop: '10px',
-                          marginBottom: '-35px',
-                          backgroundColor: '#7289DA',
-                          border: 'none',
-                        }}
-                      >
-                        Login with Discord
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </TabPane>
-
-                <TabPane tab="Register" key="2">
-                  <Form form={form} name="login" style={{marginTop: '10px'}}>
-                    <Form.Item
-                      name="username"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Provide a valid username',
-                          min: 3,
-                        },
-                      ]}
-                    >
-                      <Input
-                        size="large"
-                        placeholder="Username"
-                        onPressEnter={register}
-                        prefix={<UserOutlined />}
-                        onChange={val => setInput('username', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message:
-                            'Provide a valid password (up to 100 characters)',
-                          min: 5,
-                          max: 100,
-                        },
-                      ]}
-                    >
-                      <Input.Password
-                        size="large"
-                        placeholder="Password"
-                        onPressEnter={register}
-                        prefix={<LockOutlined />}
-                        onChange={val => setInput('password', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="email"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Provide a valid email',
-                          type: 'email',
-                        },
-                      ]}
-                    >
-                      <Input
-                        size="large"
-                        placeholder="Email"
-                        onPressEnter={register}
-                        prefix={<MailOutlined />}
-                        onChange={val => setInput('email', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="invite"
-                      rules={[
-                        {required: true, message: 'Provide a valid invite'},
-                      ]}
-                      initialValue={invite ? invite : ''}
-                    >
-                      <Input
-                        size="large"
-                        placeholder="Invite"
-                        onPressEnter={register}
-                        prefix={<CheckOutlined />}
-                        onChange={val => setInput('invite', val.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        block
-                        size="large"
-                        onClick={register}
-                        style={{marginBottom: '-30px'}}
-                        loading={bruhReg}
-                      >
-                        Register
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </TabPane>
-              </Tabs>
-            }
-          />
-
-          <Modal
-            centered
-            title="Reset your password"
-            visible={resetPasswordModal}
-            onCancel={closeModal}
-            footer={null}
-          >
-            <Form form={passwordResetForm}>
-              <Form.Item
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Provide a valid email',
-                    type: 'email',
-                  },
-                ]}
-              >
-                <Input
-                  size="large"
-                  placeholder="Email"
-                  onPressEnter={resetPassword}
-                  prefix={<MailOutlined />}
-                  onChange={val => setInput('email', val.target.value)}
-                />
-              </Form.Item>
-
-              <Form.Item style={{marginBottom: '5px'}}>
-                <Button block size="large" onClick={resetPassword}>
-                  Reset Password
-                </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
         </main>
       </div>
     </>
   );
-}
-
-export async function getInitialProps({query}: {query: any}) {
-  const {code} = query;
-
-  return {
-    props: {
-      code: code ? code : null,
-    },
-  };
 }

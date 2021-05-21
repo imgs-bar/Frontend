@@ -6,14 +6,14 @@ import General from './settings/general';
 import Sidebar from './sidebar';
 
 export default function Settings() {
-    return (
-        <div className={styles.container}>
-            <Head>
-                <title>Higure Settings</title>
-            </Head>
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Settings</title>
+      </Head>
 
-            <Navbar enabled="settings" />
-            <Sidebar selectedTab="general" render={<General />} />
-        </div>
-    );
+      <Navbar enabled="settings" />
+      <Sidebar selectedTab="general" render={<General />} />
+    </div>
+  );
 }
