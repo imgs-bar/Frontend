@@ -1,5 +1,4 @@
 require('dotenv').config();
-const darkTheme = require('@ant-design/dark-theme');
 const withSass = require('@zeit/next-sass');
 const withLess = require('@zeit/next-less');
 const withCSS = require('@zeit/next-css');
@@ -17,7 +16,9 @@ module.exports = withCSS({
         withSass({
             lessLoaderOptions: {
                 javascriptEnabled: true,
-                modifyVars: darkTheme.default,
+                modifyVars: {
+
+                },
             },
         })
     ),

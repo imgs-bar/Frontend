@@ -1,55 +1,77 @@
-import { User } from '../typings';
-import { useEffect, useState } from 'react';
-import { UserProvider } from '../components/user';
+import {User} from '../typings';
+import {useEffect, useState} from 'react';
+import {UserProvider} from '../components/user';
 import API from '../api';
-import Loading from '../components/loading';
 import '../styles/antd.less';
 import '../styles/globals.less';
+import {NextSeo} from 'next-seo';
+import Router from 'next/router';
 
-export default function App({ Component, pageProps }) {
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<User>(null);
+import NProgress from 'nprogress';
 
-    useEffect(() => {
-        const refreshToken = async () => {
-            try {
-                const api = new API();
-                const data = await api.refreshToken();
-                const { images, motd } = await api.getImages();
-                const { invites } = await api.getInvites();
-                const { domains } = await api.getDomains();
-                const { urls } = await api.getShortenedUrls();
+NProgress.configure({showSpinner: true});
 
-                data.user['domains'] = domains;
-                data.user['images'] = images;
-                data.user['motd'] = motd;
-                data.user['createdInvites'] = invites;
-                data.user['shortenedUrls'] = urls;
-                data.user['accessToken'] = data.accessToken;
-                data.user['api'] = api;
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export default function App({Component, pageProps}) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const [user, setUser] = useState<User>(null);
 
-                setUser(data.user);
+  useEffect(() => {
+    const refreshToken = async () => {
+      const api = new API();
+      const data = await api.refreshToken();
+      const {images, motd} = await api.getImages();
+      const {invites} = await api.getInvites();
+      const {domains} = await api.getDomains();
+      const {urls} = await api.getShortenedUrls();
 
-                setTimeout(() => {
-                    setLoading(false);
-                }, 500);
+      data.user['domains'] = domains;
+      data.user['images'] = images;
+      data.user['motd'] = motd;
+      data.user['createdInvites'] = invites;
+      data.user['shortenedUrls'] = urls;
+      data.user['accessToken'] = data.accessToken;
+      data.user['api'] = api;
 
-                setTimeout(() => {
-                    refreshToken();
-                }, 780000);
-            } catch (err) {
-                setTimeout(() => {
-                    setLoading(false);
-                }, 500);
-            }
-        };
+      setUser(data.user);
 
-        if (!user) refreshToken();
-    }, []);
+      setTimeout(() => {
+        refreshToken();
+      }, 780000);
+    };
 
-    return loading ? <Loading /> : (
-        <UserProvider value={{ user, setUser }}>
-            <Component {...pageProps} />
-        </UserProvider>
-    );
+    if (!user) refreshToken();
+  }, []);
+
+  return (
+    <>
+      <NextSeo
+        title="imgs.bar"
+        description="A private image host"
+        additionalMetaTags={[
+          {
+            property: 'theme-color',
+            content: '#39e66a',
+          },
+        ]}
+        openGraph={{
+          title: 'imgs.bar host',
+          description: 'very sexy imgs host private yesyes',
+          images: [
+            {
+              url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU1S7Oy7WX6At6X6YrsK--udw5CKZlTUtKqw&usqp=CAU',
+            },
+          ],
+        }}
+      />
+      <UserProvider value={{user, setUser}}>
+        <Component {...pageProps} />
+      </UserProvider>
+    </>
+  );
 }

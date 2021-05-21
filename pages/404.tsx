@@ -1,26 +1,22 @@
-import { HomeOutlined, QuestionOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import {HomeOutlined, QuestionOutlined} from '@ant-design/icons';
+import {Button} from 'antd';
 import Link from 'next/link';
 import React from 'react';
-import { useUser } from '../components/user';
+import {useUser} from '../components/user';
 import styles from '../styles/Home.module.css';
 
 export default function Custom404() {
-    const { user } = useUser();
+  const {user} = useUser();
 
-    return (
-        <div className={styles.container}>
-            <h2>404 Invalid Page</h2>
-            <Link href={user ? '/dashboard' : '/'}>
-                <Button icon={<HomeOutlined />}>
-                    {user ? 'Dashboard' : 'Home'}
-                </Button>
-            </Link>
-            <Link href="https://discord.gg/QUU7VjhFfM">
-                <Button icon={<QuestionOutlined />}>
-                    Need some assistance?
-                </Button>
-            </Link>
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+      <h2>404 Invalid Page</h2>
+      <Link href={user ? '/dashboard' : '/'}>
+        <Button icon={<HomeOutlined />}>{user ? 'Dashboard' : 'Home'}</Button>
+      </Link>
+      <Link href="https://discord.gg/QUU7VjhFfM">
+        <Button icon={<QuestionOutlined />}>Need some assistance?</Button>
+      </Link>
+    </div>
+  );
 }
