@@ -3,7 +3,7 @@
   "version": "1.0",
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build && next export",
+    "build": "yarn install && next build && next export",
     "export": "npm start build && next export",
     "start": "next start -p 3000",
     "lint": "gts lint",
