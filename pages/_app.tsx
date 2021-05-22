@@ -17,8 +17,6 @@ Bugsnag.start({
   apiKey: '6fc94a87a493f3f0b9f51cb084defc34',
   plugins: [new BugsnagPluginReact()],
   collectUserIp: false,
-  appVersion: '1.0',
-  releaseStage: 'pre',
 });
 
 LogRocket.init('8aprw6/imgsbar');
