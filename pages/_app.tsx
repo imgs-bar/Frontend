@@ -4,7 +4,6 @@ import {UserProvider} from '../components/user';
 import API from '../api';
 import '../styles/antd.less';
 import '../styles/globals.less';
-import '../styles/colors.less';
 import {NextSeo} from 'next-seo';
 import Router from 'next/router';
 import LogRocket from 'logrocket';
@@ -18,6 +17,8 @@ Bugsnag.start({
   apiKey: '6fc94a87a493f3f0b9f51cb084defc34',
   plugins: [new BugsnagPluginReact()],
   collectUserIp: false,
+  appVersion: '1.0',
+  releaseStage: 'pre',
 });
 
 LogRocket.init('8aprw6/imgsbar');
