@@ -157,14 +157,6 @@ export default function Index() {
           message: 'Something went wrong',
           description: err.message,
         });
-
-      console.log(err);
-      notification.error({
-        message: 'Provide the required fields',
-        description:
-          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
-          '.',
-      });
     }
   };
 
@@ -199,14 +191,6 @@ export default function Index() {
           message: 'Something went wrong',
           description: err.message,
         });
-
-      notification.error({
-        message: 'Provide the required fields',
-        description:
-          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
-          '.',
-      });
-      console.log(err);
     }
   };
 
