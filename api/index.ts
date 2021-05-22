@@ -6,12 +6,14 @@ import Axios, {Method} from 'axios';
  * @param {string} password The user's password.
  * @param {string} email The email to register with.
  * @param {string} invite The invite to register with.
+ * @param captcha
  */
 async function register(
   username: string,
   password: string,
   email: string,
-  invite: string
+  invite: string,
+  captcha: string
 ) {
   try {
     const {data} = await Axios.post(
@@ -21,6 +23,7 @@ async function register(
         password,
         email,
         invite,
+        captcha,
       },
       {
         withCredentials: true,
@@ -51,38 +54,6 @@ async function sendPasswordReset(email: string) {
       },
       {
         withCredentials: true,
-      }
-    );
-
-    return data;
-  } catch (err) {
-    if (err.response === null) {
-      throw new APIError("couldn't connect to api");
-    }
-    const msg = err.response.data.error;
-
-    throw new APIError(`${msg.charAt(0).toUpperCase() + msg.slice(1)}.`);
-  }
-}
-
-/**
- * Reset a user's password.
- * @param {string} key The password reset key.
- * @param {string} password The password.
- * @param {string} confirmPassword The password confirmation.
- */
-async function resetPassword(
-  key: string,
-  password: string,
-  confirmPassword: string
-) {
-  try {
-    const {data} = await Axios.post(
-      `${process.env.BACKEND_URL}/auth/password_resets/reset`,
-      {
-        key,
-        password,
-        confirmPassword,
       }
     );
 
@@ -510,4 +481,4 @@ export default class API {
   }
 }
 
-export {register, sendPasswordReset, resetPassword};
+export {register, sendPasswordReset};

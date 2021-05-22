@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import API, {APIError, register as registerUser} from '../api';
-import {Button, Modal, Tabs, Form, Input, notification} from 'antd';
+import {Button, Modal, Form, Input, notification} from 'antd';
 import {
   CheckOutlined,
   LockOutlined,
@@ -36,8 +36,8 @@ export default function Index() {
   const {user, setUser} = useUser();
   const [bruh, confirmBruh] = React.useState(false);
   const [bruhReg, confirmBruhReg] = React.useState(false);
-  const loginRecaptchaRef = React.createRef(),
-    registerRecaptchaRef = React.createRef();
+  const loginRecaptchaRef = React.createRef<ReCAPTCHA>(),
+    registerRecaptchaRef = React.createRef<ReCAPTCHA>();
 
   useEffect(() => {
     if (user) {
@@ -117,12 +117,8 @@ export default function Index() {
   // @ts-ignore
   const login = async captchaCode => {
     if (!captchaCode) {
-      return notification.error({
-        message: 'Something went wrong',
-        description: 'Please fill the captcha',
-      });
+      return;
     }
-    console.log(captchaCode);
     confirmBruh(true);
     try {
       await form.validateFields(['username', 'password']);
@@ -154,6 +150,7 @@ export default function Index() {
       }
     } catch (err) {
       confirmBruh(false);
+      loginRecaptchaRef.current?.reset();
 
       if (err instanceof APIError)
         return notification.error({
@@ -175,16 +172,19 @@ export default function Index() {
   // @ts-ignore
   const register = async captchaCode => {
     if (!captchaCode) {
-      return notification.error({
-        message: 'Something went wrong',
-        description: 'Please fill the captcha',
-      });
+      return;
     }
 
     confirmBruhReg(true);
     try {
       await form.validateFields();
-      const data = await registerUser(username, password, email, invite);
+      const data = await registerUser(
+        username,
+        password,
+        email,
+        invite,
+        captchaCode
+      );
       if (data.success)
         notification.success({
           message: 'Success',
@@ -192,6 +192,7 @@ export default function Index() {
         });
       confirmBruhReg(false);
     } catch (err) {
+      registerRecaptchaRef.current?.reset();
       confirmBruhReg(false);
       if (err instanceof APIError)
         return notification.error({
