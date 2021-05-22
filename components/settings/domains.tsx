@@ -209,10 +209,7 @@ export default function Domains() {
       }) => (
         <div>
           {domain.wildcard && <Tag color="gold">WILDCARD</Tag>}
-
           <Tag color="green">{!domain.donated ? 'OFFICIAL' : 'DONATED'}</Tag>
-
-          <Tag>{domain.userOnly ? 'PRIVATE' : 'PUBLIC'}</Tag>
         </div>
       ),
       responsive: ['md'],
