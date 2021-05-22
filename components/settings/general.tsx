@@ -31,7 +31,7 @@ export default function General() {
     selectedDomain: {
       name: domains.find(d => d.name === domain.name)
         ? domain.name
-        : 'i.higure.wtf',
+        : 'i.imgs.bar',
       wildcard: domains.find(d => d.name === domain.name)
         ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore

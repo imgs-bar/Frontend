@@ -18,7 +18,7 @@ export default function UploadC() {
     selectedDomain: {
       name: domains.find(d => d.name === user.settings.domain.name)
         ? user.settings.domain.name
-        : 'i.higure.wtf',
+        : 'i.imgs.bar',
       wildcard: domains.find(d => d.name === user.settings.domain.name)
         ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore

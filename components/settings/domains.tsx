@@ -17,7 +17,7 @@ export default function Domains() {
     userOnly: false,
     domain: '',
     selectedDomain: {
-      name: 'i.higure.wtf',
+      name: 'i.imgs.bar',
       wildcard: false,
       subdomain: '',
     },

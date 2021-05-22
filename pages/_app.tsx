@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {UserProvider} from '../components/user';
 import API from '../api';
 import '../styles/antd.less';
+import '../styles/colors.less';
 import '../styles/globals.less';
 import {NextSeo} from 'next-seo';
 import Router from 'next/router';

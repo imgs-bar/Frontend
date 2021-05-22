@@ -13,14 +13,16 @@ module.exports = withCSS({
   cssModules: true,
   cssLoaderOptions: {
     importLoaders: 1,
-    localIdentName: '😠 [hash:base62:5]😠 ',
+    localIdentName: '💸💸💸 [hash:base62:5]💸💸💸 ',
   },
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
   ...withLess(
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,
-        modifyVars: darkTheme.default,
+        modifyVars: {
+          prima,
+        },
       },
     })
   ),
