@@ -34,4 +34,5 @@ module.exports = withCSS({
     }),
   ],
   devtool: 'source-map',
+  productionBrowserSourceMaps: true,
 });
