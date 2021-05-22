@@ -20,7 +20,6 @@ module.exports = withCSS({
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,
-        modifyVars: darkTheme.default,
       },
     })
   ),
@@ -34,5 +33,4 @@ module.exports = withCSS({
     }),
   ],
   devtool: 'source-map',
-  productionBrowserSourceMaps: true,
 });
