@@ -82,7 +82,7 @@ export default function App({Component, pageProps}) {
             description: 'very sexy imgs host private yesyes',
             images: [
               {
-                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU1S7Oy7WX6At6X6YrsK--udw5CKZlTUtKqw&usqp=CAU',
+                url: 'https://media.discordapp.net/attachments/735205297395859502/845637311198003240/images-removebg-preview5.png',
               },
             ],
           }}
