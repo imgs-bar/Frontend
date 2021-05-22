@@ -90,7 +90,6 @@ export default function App({Component, pageProps}) {
           }}
         />
         {/* eslint-disable-next-line node/no-unsupported-features/node-builtins */}
-        {console.clear()}
         {console.log(
           '\n%cWelcome to\n%cimgs.bar\n',
           'font-size: 15px; color: black; font-weight: bold',
