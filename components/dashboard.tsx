@@ -17,6 +17,7 @@ import {APIError} from '../api';
 
 export default function Dashboard() {
   const [inviteManager, setInvManager] = useState(false);
+  // eslint-disable-next-line prefer-const
   let {user, setUser} = useUser();
   const {images} = user;
 
@@ -103,11 +104,11 @@ export default function Dashboard() {
 
         setUser(user);
 
-        navigator.clipboard.writeText(data.link);
+        navigator.clipboard.writeText(data._id);
 
         notification.success({
           message: 'Success',
-          description: 'Copied invite link to clipboard.',
+          description: 'Copied invite to clipboard.',
         });
       }
     } catch (err) {
@@ -138,13 +139,11 @@ export default function Dashboard() {
         <span
           className={`ant-btn-link ${styles.actionBtn}`}
           onClick={() => {
-            navigator.clipboard.writeText(
-              `https://imgs.bar/?code=${record._id}`
-            );
+            navigator.clipboard.writeText(`${record._id}`);
 
             notification.success({
               message: 'Success',
-              description: 'Copied invite link to clipboard.',
+              description: 'Copied invite to clipboard.',
             });
           }}
         >
@@ -363,7 +362,7 @@ export default function Dashboard() {
 
           <Button
             shape="round"
-            disabled={user.admin ? false : user.invites <= 0}
+            disabled={!user.admin && user.invites <= 0}
             style={{
               marginTop: '20px',
               height: '35px',
