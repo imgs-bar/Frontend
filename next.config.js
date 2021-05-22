@@ -3,8 +3,7 @@ const darkTheme = require('@ant-design/dark-theme');
 const withSass = require('@zeit/next-sass');
 const withLess = require('@zeit/next-less');
 const withCSS = require('@zeit/next-css');
-// eslint-disable-next-line node/no-unpublished-require
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {BugsnagSourceMapUploaderPlugin} = require('webpack-bugsnag-plugins');
 
 if (typeof require !== 'undefined') {
   // eslint-disable-next-line node/no-deprecated-api,no-unused-vars
@@ -29,8 +28,10 @@ module.exports = withCSS({
     BACKEND_URL: process.env.BACKEND_URL,
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/[hash].css',
+    new BugsnagSourceMapUploaderPlugin({
+      apiKey: '6fc94a87a493f3f0b9f51cb084defc34',
+      appVersion: '1.0',
     }),
   ],
+  devtool: 'source-map',
 });
