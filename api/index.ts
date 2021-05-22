@@ -178,14 +178,16 @@ export default class API {
    * Send a login request.
    * @param {string} username The user's username.
    * @param {string} password The user's password.
+   * @param {string} captcha The user's captcha
    */
-  async login(username: string, password: string) {
+  async login(username: string, password: string, captcha: string) {
     const data = await this.request({
       endpoint: '/auth/login',
       method: 'POST',
       body: {
         username,
         password,
+        captcha,
       },
     });
 

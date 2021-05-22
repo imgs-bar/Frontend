@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import API, {APIError, register as registerUser} from '../api';
@@ -13,9 +13,9 @@ import {
 import {SiDiscord} from 'react-icons/si';
 import {useRouter} from 'next/router';
 import {useUser} from '../components/user';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const {useForm} = Form;
-const {TabPane} = Tabs;
 
 export default function Index() {
   const initialState = {
@@ -36,6 +36,8 @@ export default function Index() {
   const {user, setUser} = useUser();
   const [bruh, confirmBruh] = React.useState(false);
   const [bruhReg, confirmBruhReg] = React.useState(false);
+  const loginRecaptchaRef = React.createRef(),
+    registerRecaptchaRef = React.createRef();
 
   useEffect(() => {
     if (user) {
@@ -98,13 +100,35 @@ export default function Index() {
     } catch (ignored) {}
   };
 
-  const login = async () => {
+  const doLoginCaptcha = async (event: {preventDefault: () => void}) => {
+    event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    loginRecaptchaRef.current.execute();
+  };
+
+  const doRegisterCaptcha = async (event: {preventDefault: () => void}) => {
+    event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    registerRecaptchaRef.current.execute();
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const login = async captchaCode => {
+    if (!captchaCode) {
+      return notification.error({
+        message: 'Something went wrong',
+        description: 'Please fill the captcha',
+      });
+    }
+    console.log(captchaCode);
     confirmBruh(true);
     try {
       await form.validateFields(['username', 'password']);
 
       const api = new API();
-      const data = await api.login(username, password);
+      const data = await api.login(username, password, captchaCode);
       const {images, motd} = await api.getImages();
       const {invites} = await api.getInvites();
       const {domains} = await api.getDomains();
@@ -137,6 +161,7 @@ export default function Index() {
           description: err.message,
         });
 
+      console.log(err);
       notification.error({
         message: 'Provide the required fields',
         description:
@@ -146,7 +171,16 @@ export default function Index() {
     }
   };
 
-  const register = async () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const register = async captchaCode => {
+    if (!captchaCode) {
+      return notification.error({
+        message: 'Something went wrong',
+        description: 'Please fill the captcha',
+      });
+    }
+
     confirmBruhReg(true);
     try {
       await form.validateFields();
@@ -171,6 +205,7 @@ export default function Index() {
           filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
           '.',
       });
+      console.log(err);
     }
   };
 
@@ -232,6 +267,14 @@ export default function Index() {
               title={null}
               footer={
                 <Form form={form} name="login" style={{marginTop: '10px'}}>
+                  <ReCAPTCHA
+                    size="invisible"
+                    sitekey={'6LfOSuQaAAAAADCare4jtQMneJ0chlY2QEbuIOug'}
+                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    ref={loginRecaptchaRef}
+                    onChange={login}
+                  />
                   <Form.Item
                     name="username"
                     rules={[
@@ -244,13 +287,12 @@ export default function Index() {
                   >
                     <Input
                       size="large"
-                      onPressEnter={login}
+                      onPressEnter={doLoginCaptcha}
                       placeholder="Username"
                       prefix={<UserOutlined />}
                       onChange={val => setInput('username', val.target.value)}
                     />
                   </Form.Item>
-
                   <Form.Item
                     name="password"
                     rules={[
@@ -265,15 +307,19 @@ export default function Index() {
                   >
                     <Input.Password
                       size="large"
-                      onPressEnter={login}
+                      onPressEnter={doLoginCaptcha}
                       placeholder="Password"
                       prefix={<LockOutlined />}
                       onChange={val => setInput('password', val.target.value)}
                     />
                   </Form.Item>
-
                   <Form.Item>
-                    <Button block size="large" onClick={login} loading={bruh}>
+                    <Button
+                      block
+                      size="large"
+                      onClick={doLoginCaptcha}
+                      loading={bruh}
+                    >
                       Login
                     </Button>
 
@@ -314,6 +360,14 @@ export default function Index() {
               title={null}
               footer={
                 <Form form={form} name="register" style={{marginTop: '10px'}}>
+                  <ReCAPTCHA
+                    size="invisible"
+                    sitekey={'6LfOSuQaAAAAADCare4jtQMneJ0chlY2QEbuIOug'}
+                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
+                    ref={registerRecaptchaRef}
+                    onChange={register}
+                  />
                   <Form.Item
                     name="username"
                     rules={[
@@ -327,7 +381,7 @@ export default function Index() {
                     <Input
                       size="large"
                       placeholder="Username"
-                      onPressEnter={register}
+                      onPressEnter={doRegisterCaptcha}
                       prefix={<UserOutlined />}
                       onChange={val => setInput('username', val.target.value)}
                     />
@@ -348,7 +402,7 @@ export default function Index() {
                     <Input.Password
                       size="large"
                       placeholder="Password"
-                      onPressEnter={register}
+                      onPressEnter={doRegisterCaptcha}
                       prefix={<LockOutlined />}
                       onChange={val => setInput('password', val.target.value)}
                     />
@@ -367,7 +421,7 @@ export default function Index() {
                     <Input
                       size="large"
                       placeholder="Email"
-                      onPressEnter={register}
+                      onPressEnter={doRegisterCaptcha}
                       prefix={<MailOutlined />}
                       onChange={val => setInput('email', val.target.value)}
                     />
@@ -383,7 +437,7 @@ export default function Index() {
                     <Input
                       size="large"
                       placeholder="Invite"
-                      onPressEnter={register}
+                      onPressEnter={doRegisterCaptcha}
                       prefix={<CheckOutlined />}
                       onChange={val => setInput('invite', val.target.value)}
                     />
@@ -393,7 +447,7 @@ export default function Index() {
                     <Button
                       block
                       size="large"
-                      onClick={register}
+                      onClick={doRegisterCaptcha}
                       style={{marginBottom: '-30px'}}
                       loading={bruhReg}
                     >
