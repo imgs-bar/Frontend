@@ -20,9 +20,7 @@ module.exports = withCSS({
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,
-        modifyVars: {
-          prima,
-        },
+        modifyVars: darkTheme.default,
       },
     })
   ),
