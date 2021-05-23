@@ -232,7 +232,8 @@ export default function Index({code}: {code: any}) {
               size="large"
               icon={<SiDiscord  />}
               style={{
-                marginRight: '15px',
+                marginRight: '8px',
+                marginTop: '2px',
                 borderRadius: '5px',
                 height: '40px',
                 borderColor: 'white',
@@ -244,7 +245,7 @@ export default function Index({code}: {code: any}) {
 
             <Button
               size="large"
-              icon={<LockOutlined  />}
+              icon={<UserAddOutlined  />}
               style={{
                 marginRight: '15px',
                 borderRadius: '5px',
