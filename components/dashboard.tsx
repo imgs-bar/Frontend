@@ -147,7 +147,7 @@ export default function Dashboard() {
             });
           }}
         >
-          Copy Link
+          Copy Invite
         </span>
       ),
     },
