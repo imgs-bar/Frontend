@@ -206,7 +206,7 @@ export default function Index() {
           <div style={{marginLeft: '8px'}}>
             <img
               className={styles.logo}
-              src="https://cdn.discordapp.com/attachments/824790681129844736/846011710438637588/imgsbar.png"
+              src="https://cdn.discordapp.com/attachments/824790681129844736/846030972411314216/123.jpg"
               alt=""
             />
           </div>
