@@ -20,6 +20,7 @@ module.exports = withCSS({
     withSass({
       lessLoaderOptions: {
         javascriptEnabled: true,
+        modifyVars: darkTheme.default,
       },
     })
   ),
@@ -31,12 +32,7 @@ module.exports = withCSS({
       apiKey: '6fc94a87a493f3f0b9f51cb084defc34',
     }),
   ],
-  devtool: 'source-map',
   poweredByHeader: false,
   generateEtags: false,
   compress: false,
-  experimentalDecorators: {
-    scriptLoader: true,
-  },
-  productionBrowserSourceMaps: true,
 });

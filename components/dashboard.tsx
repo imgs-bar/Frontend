@@ -139,15 +139,15 @@ export default function Dashboard() {
         <span
           className={`ant-btn-link ${styles.actionBtn}`}
           onClick={() => {
-            navigator.clipboard.writeText(`${record._id}`);
+            navigator.clipboard.writeText(`${record.link}`);
 
             notification.success({
               message: 'Success',
-              description: 'Copied invite to clipboard.',
+              description: 'Copied invite link to clipboard.',
             });
           }}
         >
-          Copy Invite
+          Copy Invite Link
         </span>
       ),
     },

@@ -17,7 +17,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 const {useForm} = Form;
 
-export default function Index() {
+export default function Index({code}: {code: any}) {
   const initialState = {
     showLogin: false,
     showRegister: false,
@@ -447,4 +447,13 @@ export default function Index() {
       </div>
     </>
   );
+}
+export async function getServerSideProps({query}: {query: any}) {
+  const {code} = query;
+
+  return {
+    props: {
+      code: code ? code : null,
+    },
+  };
 }
