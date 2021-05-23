@@ -227,6 +227,21 @@ export default function Index({code}: {code: any}) {
             >
               Login
             </Button>
+
+            <Button
+              size="large"
+              icon={<LockOutlined />}
+              style={{
+                marginRight: '15px',
+                borderRadius: '5px',
+                height: '40px',
+                borderColor: 'white',
+              }}
+              onClick={() => window.location.href='https://discord.gg/GhpqkVJdEK'}
+            >
+              Discord
+            </Button>
+
             <Button
               size="large"
               icon={<UserAddOutlined />}
