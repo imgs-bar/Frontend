@@ -275,7 +275,10 @@ export default function Dashboard() {
                       marginLeft: '10px',
                     }}
                     cover={
-                      <a href={m.link} target="blank">
+                      <a
+                        onClick={() => navigator.clipboard.writeText(m.link)}
+                        target="blank"
+                      >
                         <img
                           style={{
                             height: '100px',
@@ -284,7 +287,7 @@ export default function Dashboard() {
                             marginLeft: '3px',
                             marginTop: '2px',
                           }}
-                          src={m.link}
+                          src={m.cdnUrl}
                         />
                       </a>
                     }
