@@ -230,7 +230,7 @@ export default function Index({code}: {code: any}) {
 
             <Button
               size="large"
-              icon={<SiDiscord />}
+              icon={<SiDiscord  />}
               style={{
                 marginRight: '15px',
                 borderRadius: '5px',
