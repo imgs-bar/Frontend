@@ -96,7 +96,7 @@ export default function Dashboard() {
         user = Object.assign({}, user);
         user.createdInvites = user.createdInvites.concat([
           {
-            _id: data.code,
+            _id: data._id,
             dateCreated: data.dateCreated,
           },
         ]);
