@@ -42,6 +42,8 @@ export default function Index({code}: {code: any}) {
   useEffect(() => {
     if (user) {
       router.push('/dashboard');
+    } else if (code) {
+      setState(state => ({...state, invite: code, showRegister: true}));
     }
   }, []);
 

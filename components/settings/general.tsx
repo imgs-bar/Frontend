@@ -33,9 +33,7 @@ export default function General() {
         ? domain.name
         : 'i.imgs.bar',
       wildcard: domains.find(d => d.name === domain.name)
-        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          domains.find(d => d.name === domain.name).wildcard
+        ? domains.find(d => d.name === domain.name).wildcard
         : false,
       subdomain:
         domain.subdomain !== '' && domain.subdomain !== null
@@ -58,8 +56,6 @@ export default function General() {
       className={styles.domainDropdown}
       defaultValue={selectedDomain.name}
       filterOption={(input, option) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
       onSelect={x => {
@@ -177,8 +173,6 @@ export default function General() {
             embed.enabled = value;
             break;
           default:
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             user.settings[property] = value;
             break;
         }
@@ -337,14 +331,7 @@ export default function General() {
           className={styles.btn}
           icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
         >
-          <span style={{paddingTop: '2px'}}>ShareX File Config</span>
-        </Button>
-        <Button
-          href={`${process.env.BACKEND_URL}/shortener/config?key=${user.key}`}
-          className={styles.btn}
-          icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
-        >
-          <span style={{paddingTop: '2px'}}>ShareX Shorten Config</span>
+          <span style={{paddingTop: '2px'}}>Download ShareX Config</span>
         </Button>
       </div>
 
@@ -444,6 +431,7 @@ export default function General() {
                     setState(state => ({...state, fakeUrlManager: true}))
                   }
                   style={{
+                    backgroundColor: 'rgb(68, 52, 83)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -482,6 +470,7 @@ export default function General() {
                     setState(state => ({...state, embedEditor: true}))
                   }
                   style={{
+                    backgroundColor: 'rgb(68, 52, 83)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -516,6 +505,7 @@ export default function General() {
                     setState(state => ({...state, autoWipeManager: true}))
                   }
                   style={{
+                    backgroundColor: 'rgb(68, 52, 83)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -548,6 +538,7 @@ export default function General() {
                   type="primary"
                   onClick={() => router.push('/settings/domains')}
                   style={{
+                    backgroundColor: 'rgb(68, 52, 83)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -637,8 +628,6 @@ export default function General() {
                 filterOption={(input, option) => {
                   return (
                     input.split(' ').splice(-1)[0].startsWith('{') &&
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     option.value.startsWith(input.split(' ').splice(-1)) &&
                     !input.endsWith('}')
                   );
@@ -689,8 +678,6 @@ export default function General() {
                 filterOption={(input, option) => {
                   return (
                     input.split(' ').splice(-1)[0].startsWith('{') &&
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     option.value.startsWith(input.split(' ').splice(-1)) &&
                     !input.endsWith('}')
                   );
@@ -744,8 +731,6 @@ export default function General() {
                 filterOption={(input, option) => {
                   return (
                     input.split(' ').splice(-1)[0].startsWith('{') &&
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     option.value.startsWith(input.split(' ').splice(-1)) &&
                     !input.endsWith('}')
                   );
@@ -814,8 +799,6 @@ export default function General() {
             {embed.title !== '' && (
               <span
                 className={styles.embedTitle}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 style={
                   !embed.author
                     ? {
@@ -833,8 +816,6 @@ export default function General() {
             {embed.description !== '' && (
               <span
                 className={styles.embedDescription}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 style={
                   !embed.author && !embed.title
                     ? {
@@ -852,8 +833,6 @@ export default function General() {
             )}
 
             <img
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
               style={
                 embed.title === '' ||
                 embed.description === '' ||

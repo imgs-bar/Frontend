@@ -27,12 +27,4 @@ module.exports = withCSS({
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
   },
-  plugins: [
-    new BugsnagSourceMapUploaderPlugin({
-      apiKey: '6fc94a87a493f3f0b9f51cb084defc34',
-    }),
-  ],
-  poweredByHeader: false,
-  generateEtags: false,
-  compress: false,
 });

@@ -139,7 +139,9 @@ export default function Dashboard() {
         <span
           className={`ant-btn-link ${styles.actionBtn}`}
           onClick={() => {
-            navigator.clipboard.writeText(`${record.link}`);
+            navigator.clipboard.writeText(
+              `https://imgs.bar/?code=${record._id}`
+            );
 
             notification.success({
               message: 'Success',
