@@ -337,16 +337,14 @@ export default function General() {
           className={styles.btn}
           icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
         >
-          <span style={{paddingTop: '2px'}}>Download ShareX File Config</span>
+          <span style={{paddingTop: '2px'}}>ShareX File Config</span>
         </Button>
         <Button
           href={`${process.env.BACKEND_URL}/shortener/config?key=${user.key}`}
           className={styles.btn}
           icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
         >
-          <span style={{paddingTop: '2px'}}>
-            Download ShareX Shorten Config
-          </span>
+          <span style={{paddingTop: '2px'}}>ShareX Shorten Config</span>
         </Button>
       </div>
 
