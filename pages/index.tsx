@@ -244,7 +244,7 @@ export default function Index({code}: {code: any}) {
 
             <Button
               size="large"
-              icon={<UserAddOutlined />}
+              icon={<LockOutlined  />}
               style={{
                 marginRight: '15px',
                 borderRadius: '5px',
