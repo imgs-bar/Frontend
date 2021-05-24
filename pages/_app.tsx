@@ -8,9 +8,22 @@ import {NextSeo} from 'next-seo';
 import Loading from '../components/loading';
 import LogRocket from 'logrocket';
 import setupLogRocketReact from 'logrocket-react';
+import * as Sentry from '@sentry/react';
+import {Integrations} from '@sentry/tracing';
+
+Sentry.init({
+  dsn: 'https://0ac6be2c34e54b97a05ee31408736f38@o684538.ingest.sentry.io/5780231',
+  integrations: [new Integrations.BrowserTracing()],
+});
 
 LogRocket.init('8aprw6/imgsbar');
 setupLogRocketReact(LogRocket);
+
+LogRocket.getSessionURL(sessionURL => {
+  Sentry.configureScope(scope => {
+    scope.setExtra('sessionURL', sessionURL);
+  });
+});
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
