@@ -65,15 +65,15 @@ export default function App({Component, pageProps}) {
         additionalMetaTags={[
           {
             property: 'theme-color',
-            content: '#39e66a',
+            content: '#a058db',
           },
         ]}
         openGraph={{
-          title: 'imgs.bar host',
-          description: 'very sexy imgs host private yesyes',
+          title: 'imgs.bar Image Host',
+          description: 'discord.gg/GhpqkVJdEK - imgs.bar is the perfect image host.',
           images: [
             {
-              url: 'https://media.discordapp.net/attachments/735205297395859502/845637311198003240/images-removebg-preview5.png',
+              url: 'https://cdn.discordapp.com/attachments/824790681129844736/846196883150864395/imgsbar.png',
             },
           ],
         }}
