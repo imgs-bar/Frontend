@@ -431,7 +431,7 @@ export default function General() {
                     setState(state => ({...state, fakeUrlManager: true}))
                   }
                   style={{
-                    backgroundColor: 'rgb(68, 52, 83)',
+                    backgroundColor: 'rgb(0, 0, 0)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -470,7 +470,7 @@ export default function General() {
                     setState(state => ({...state, embedEditor: true}))
                   }
                   style={{
-                    backgroundColor: 'rgb(68, 52, 83)',
+                    backgroundColor: 'rgb(0, 0, 0)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -505,7 +505,7 @@ export default function General() {
                     setState(state => ({...state, autoWipeManager: true}))
                   }
                   style={{
-                    backgroundColor: 'rgb(68, 52, 83)',
+                    backgroundColor: 'rgb(0, 0, 0)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
@@ -538,7 +538,7 @@ export default function General() {
                   type="primary"
                   onClick={() => router.push('/settings/domains')}
                   style={{
-                    backgroundColor: 'rgb(68, 52, 83)',
+                    backgroundColor: 'rgb(0, 0, 0)',
                     border: 'none',
                     marginRight: '10px',
                     marginTop: '-1px',
