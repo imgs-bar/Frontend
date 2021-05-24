@@ -70,7 +70,8 @@ export default function App({Component, pageProps}) {
         ]}
         openGraph={{
           title: 'imgs.bar Image Host',
-          description: 'discord.gg/GhpqkVJdEK - imgs.bar is the perfect image host.',
+          description:
+            'discord.gg/GhpqkVJdEK - imgs.bar is the perfect image host.',
           images: [
             {
               url: 'https://cdn.discordapp.com/attachments/824790681129844736/846196883150864395/imgsbar.png',

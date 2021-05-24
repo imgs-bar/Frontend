@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import { useUser } from '../components/user';
+import React, {useEffect} from 'react';
+import {useUser} from '../components/user';
 import Verify from '../components/verify';
 import DashboardC from '../components/dashboard';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 export default function Dashboard() {
-    const router = useRouter();
-    const { user } = useUser();
+  const router = useRouter();
+  const {user} = useUser();
 
-    useEffect(() => {
-        if (!user) {
-            router.push('/');
-        }
-    }, []);
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+  }, []);
 
-    if (!user) return null;
+  if (!user) return null;
 
-    return user.discord.id ? <DashboardC /> : <Verify />;
+  return user.discord.id ? <DashboardC /> : <Verify />;
 }

@@ -104,7 +104,7 @@ export default function Dashboard() {
 
         setUser(user);
 
-        navigator.clipboard.writeText(data._id);
+        navigator.clipboard.writeText(data.link);
 
         notification.success({
           message: 'Success',

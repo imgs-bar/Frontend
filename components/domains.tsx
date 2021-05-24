@@ -6,14 +6,14 @@ import DomainsC from './settings/domains';
 import Sidebar from './sidebar';
 
 export default function Domains() {
-    return (
-        <div className={styles.container}>
-            <Head>
-                <title>Domain Manager</title>
-            </Head>
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Domain Manager</title>
+      </Head>
 
-            <Navbar enabled="settings" />
-            <Sidebar selectedTab="domains" render={<DomainsC />} />
-        </div>
-    );
+      <Navbar enabled="settings" />
+      <Sidebar selectedTab="domains" render={<DomainsC />} />
+    </div>
+  );
 }

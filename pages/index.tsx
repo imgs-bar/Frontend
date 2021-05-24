@@ -230,7 +230,14 @@ export default function Index({code}: {code: any}) {
 
             <Button
               size="large"
-              icon={<SiDiscord  />}
+              icon={
+                <SiDiscord
+                  style={{
+                    marginRight: '10px',
+                    marginBottom: '-3px',
+                  }}
+                />
+              }
               style={{
                 marginRight: '8px',
                 marginTop: '2px',
@@ -238,14 +245,16 @@ export default function Index({code}: {code: any}) {
                 height: '40px',
                 borderColor: 'white',
               }}
-              onClick={() => window.location.href='https://discord.gg/GhpqkVJdEK'}
+              onClick={() =>
+                (window.location.href = 'https://discord.gg/GhpqkVJdEK')
+              }
             >
               Discord
             </Button>
 
             <Button
               size="large"
-              icon={<UserAddOutlined  />}
+              icon={<UserAddOutlined />}
               style={{
                 marginRight: '15px',
                 borderRadius: '5px',
