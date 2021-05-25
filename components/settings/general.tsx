@@ -333,6 +333,17 @@ export default function General() {
         >
           <span style={{paddingTop: '2px'}}>Download ShareX Config</span>
         </Button>
+        
+        <Button
+                    href={"https://www.icloud.com/shortcuts/440688b319cc4e079273cb09ead277f4"}
+                    className={styles.btn}
+                    icon={<DownloadOutlined style={{ paddingTop: '3px' }} />}
+                >
+                    <span style={{ paddingTop: '2px' }}>
+                            Download iOS Shortcut
+                    </span>
+                </Button>
+        
       </div>
 
       <div className={styles.section}>
