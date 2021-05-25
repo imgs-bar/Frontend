@@ -253,7 +253,7 @@ export default function Dashboard() {
           <div className={styles.galleryContainer}>
             <List
               locale={{emptyText: "You haven't uploaded any files."}}
-              dataSource={images.reverse()}
+              dataSource={images}
               pagination={
                 images.length <= 18
                   ? false
