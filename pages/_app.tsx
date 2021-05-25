@@ -51,6 +51,13 @@ export default function App({Component, pageProps}) {
         data.user['accessToken'] = data.accessToken;
         data.user['api'] = api;
 
+        LogRocket.identify(data.user.uid, {
+          name: data.user.username,
+          email: data.user.email,
+
+          admin: data.user.admin,
+          images: data.user.images,
+        });
         setUser(data.user);
 
         setTimeout(() => {
