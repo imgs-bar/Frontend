@@ -13,6 +13,7 @@ import {
   ToolOutlined,
   UploadOutlined,
   UserOutlined,
+  WifiOutlined,
 } from '@ant-design/icons';
 
 const {SubMenu} = Menu;
@@ -127,6 +128,17 @@ export default function Navbar({
               Settings
             </Button>
           </Link>
+          
+          <Link href="https://status.imgs.bar">
+          <Button
+            className={`${styles.navButton} ${
+              enabled === 'settings' && styles.navButtonActive
+              }`}
+          icon={<WifiOutlined style={{ fontSize: '14px' }} />}
+        >
+         Status
+         </Button>
+        </Link>
 
           <Dropdown overlay={tools} placement="bottomCenter">
             <Button
