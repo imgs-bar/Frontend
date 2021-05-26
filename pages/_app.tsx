@@ -16,7 +16,9 @@ Sentry.init({
   integrations: [new Integrations.BrowserTracing()],
 });
 
-LogRocket.init('8aprw6/imgsbar');
+LogRocket.init('8aprw6/imgsbar', {
+  shouldCaptureIP: false,
+});
 setupLogRocketReact(LogRocket);
 
 LogRocket.getSessionURL(sessionURL => {
@@ -91,7 +93,7 @@ export default function App({Component, pageProps}) {
         openGraph={{
           title: 'imgs.bar Image Host',
           description:
-            'imgs.bar a new image host with alot of features. - discord.gg/GhpqkVJdEK.',
+            'imgs.bar a new image host with alot of features. - discord.gg/gBfKxyUhZa.',
           images: [
             {
               url: 'https://cdn.discordapp.com/attachments/824790681129844736/846196883150864395/imgsbar.png',

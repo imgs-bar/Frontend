@@ -276,7 +276,16 @@ export default function Index({code}: {code: any}) {
               className="authModal"
               visible={showLogin}
               onCancel={closeLogin}
-              title={null}
+              title={
+                <h2
+                  style={{
+                    marginTop: '8px',
+                    marginLeft: '-5px',
+                  }}
+                >
+                  Login
+                </h2>
+              }
               footer={
                 <Form form={form} name="login" style={{marginTop: '10px'}}>
                   <ReCAPTCHA
@@ -369,7 +378,16 @@ export default function Index({code}: {code: any}) {
               className="authModal"
               visible={showRegister}
               onCancel={closeRegister}
-              title={null}
+              title={
+                <h2
+                  style={{
+                    marginTop: '8px',
+                    marginLeft: '-5px',
+                  }}
+                >
+                  Register
+                </h2>
+              }
               footer={
                 <Form form={form} name="register" style={{marginTop: '10px'}}>
                   <ReCAPTCHA
