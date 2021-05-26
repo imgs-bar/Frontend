@@ -14,6 +14,7 @@ import {
   MessageOutlined,
 } from '@ant-design/icons';
 import {APIError} from '../api';
+import Tilt from 'react-parallax-tilt';
 
 export default function Dashboard() {
   const [inviteManager, setInvManager] = useState(false);

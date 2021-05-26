@@ -5884,6 +5884,11 @@ react-is@16.13.1, react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-parallax-tilt@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.yarnpkg.com/react-parallax-tilt/-/react-parallax-tilt-1.5.14.tgz#723d90d5736f86e455043edd0080851f96807bd7"
+  integrity sha512-Ytn+PJ2CGFFMhpRAmZEhAIyIBV9OCv2e74Yi8x0+Rnlan0S+SUjDcM6hetFkydAI+ddZmGWFlmjnMzA5ZLGD9w==
+
 react-particles-js@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/react-particles-js/-/react-particles-js-3.4.1.tgz#e0f17ae1ddb07d01ce911448db76cd59726fe666"
