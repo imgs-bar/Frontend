@@ -21,7 +21,7 @@ const {SubMenu} = Menu;
 export default function Navbar({
   enabled,
 }: {
-  enabled: 'home' | 'settings' | 'upload' | 'shorten' | 'account';
+  enabled: 'home' | 'settings' | 'upload' | 'shorten' | 'account' | 'status';
 }) {
   const {user, setUser} = useUser();
   const router = useRouter();
@@ -132,7 +132,7 @@ export default function Navbar({
           <Link href="https://status.imgs.bar">
           <Button
             className={`${styles.navButton} ${
-              enabled === 'settings' && styles.navButtonActive
+              enabled === 'status' && styles.navButtonActive
               }`}
           icon={<WifiOutlined style={{ fontSize: '14px' }} />}
         >
