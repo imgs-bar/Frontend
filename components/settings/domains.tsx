@@ -270,6 +270,12 @@ export default function Domains() {
           >
             Add Domain
           </Button>
+          
+          <p className={styles.caption}>
+            Our nameservers are: 
+            <b> glen.ns.cloudflare.com : lara.ns.cloudflare.com </b>
+          </p>
+          
         </div>
       )}
 
