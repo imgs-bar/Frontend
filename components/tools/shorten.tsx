@@ -5,6 +5,7 @@ import styles from '../../styles/Shorten.module.css';
 import {Button, Input, notification, Select, Switch, Table} from 'antd';
 import {useUser} from '../user';
 import {APIError} from '../../api';
+import {DownloadOutlined} from '@ant-design/icons';
 
 const {Option} = Select;
 
@@ -185,13 +186,34 @@ export default function ShortenC() {
     {
       title: 'Action',
       key: 'action',
-      render: (ctx: {shortId: string}) => (
-        <span
-          onClick={() => deleteShortUrl(ctx.shortId)}
-          className={`ant-btn-link ${styles.actionBtn}`}
-        >
-          Delete
-        </span>
+      render: (ctx: {shortId: string; url: string}) => (
+        <>
+          <span
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(ctx.url);
+                return notification.success({
+                  message: 'Copied url to clipboard',
+                  description: 'Successfully copied short url to clipboard!',
+                });
+              } catch (e) {
+                return notification.error({
+                  message: "Couldn't copy image link to clipboard",
+                  description: e.message,
+                });
+              }
+            }}
+            className={`ant-btn-link ${styles.actionBtn}`}
+          >
+            Copy
+          </span>
+          <span
+            onClick={() => deleteShortUrl(ctx.shortId)}
+            className={`ant-btn-link ${styles.actionBtn}`}
+          >
+            Delete
+          </span>
+        </>
       ),
     },
   ];
@@ -205,6 +227,21 @@ export default function ShortenC() {
       <Navbar enabled="upload" />
 
       <div className={styles.page}>
+        <div className={styles.section}>
+          <h1 className={styles.title}>Config Generator</h1>
+          <p className={styles.caption}>
+            Click on the button to download the config.
+          </p>
+
+          <Button
+            href={`${process.env.BACKEND_URL}/shortener/config?key=${user.key}`}
+            className={styles.btn}
+            icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
+          >
+            <span style={{paddingTop: '2px'}}>Download ShareX Config</span>
+          </Button>
+        </div>
+
         <div className={styles.section}>
           <h1 className={styles.title}>Shorten a URL</h1>
 
