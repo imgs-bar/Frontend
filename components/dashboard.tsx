@@ -279,7 +279,21 @@ export default function Dashboard() {
                     }}
                     cover={
                       <a
-                        onClick={() => navigator.clipboard.writeText(m.link)}
+                        onClick={async () => {
+                          try {
+                            await navigator.clipboard.writeText(m.link);
+                            return notification.success({
+                              message: 'Copied image to clipboard',
+                              description:
+                                'Successfully copied image link to clipboard!',
+                            });
+                          } catch (e) {
+                            return notification.error({
+                              message: "Couldn't copy image link to clipboard",
+                              description: e.message,
+                            });
+                          }
+                        }}
                         target="blank"
                       >
                         <img
