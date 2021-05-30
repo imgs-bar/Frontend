@@ -186,12 +186,12 @@ export default function ShortenC() {
     {
       title: 'Action',
       key: 'action',
-      render: (ctx: {shortId: string; url: string}) => (
+      render: (ctx: {shortId: string; shortendUrl: string}) => (
         <>
           <span
             onClick={async () => {
               try {
-                await navigator.clipboard.writeText(ctx.url);
+                await navigator.clipboard.writeText(ctx.shortendUrl);
                 return notification.success({
                   message: 'Copied url to clipboard',
                   description: 'Successfully copied short url to clipboard!',
