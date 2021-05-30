@@ -207,6 +207,7 @@ export default function ShortenC() {
           >
             Copy
           </span>
+          <br />
           <span
             onClick={() => deleteShortUrl(ctx.shortId)}
             className={`ant-btn-link ${styles.actionBtn}`}
