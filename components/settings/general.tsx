@@ -860,16 +860,14 @@ export default function General() {
                 style={
                   !embed.description
                     ? {
-                        marginTop: '20px',
+                        marginTop: '10px',
                       }
                     : null
                 }
               >
-                <i>
-                  {embed.siteName === 'default'
-                    ? 'imgs.bar'
-                    : formatEmbedField(embed.siteName)}
-                </i>
+                {embed.siteName === 'default'
+                  ? 'imgs.bar'
+                  : formatEmbedField(embed.siteName)}
               </span>
             }
 

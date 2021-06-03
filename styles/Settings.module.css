@@ -154,6 +154,16 @@
   font-weight: 600;
 }
 
+.embedSitename {
+  color: dimgray;
+  word-wrap: break-word;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: 345;
+  font-style: italic;
+}
+
 .embedTitle {
   word-wrap: break-word;
   padding-right: 30px;
