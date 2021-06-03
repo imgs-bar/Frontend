@@ -248,7 +248,7 @@ export default function Index({code}: {code: any}) {
               // borderColor: 'white',
               }}
               onClick={() =>
-                (window.location.href = 'https://discord.gg/gBfKxyUhZa')
+                (window.location.href = 'https://discord.gg/img')
               }
             >
               Discord
