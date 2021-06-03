@@ -865,9 +865,11 @@ export default function General() {
                     : null
                 }
               >
-                {embed.siteName === 'default'
-                  ? 'imgs.bar'
-                  : formatEmbedField(embed.siteName)}
+                <i>
+                  {embed.siteName === 'default'
+                    ? 'imgs.bar'
+                    : formatEmbedField(embed.siteName)}
+                </i>
               </span>
             }
 
