@@ -280,6 +280,7 @@ export default function General() {
       const data = await user.api.updateEmbed({
         color: embed.color,
         title: embed.title,
+        siteName: embed.siteName,
         description: embed.description,
         author: embed.author,
         randomColor: embed.randomColor,
@@ -612,6 +613,109 @@ export default function General() {
               className={styles.embedColorInput}
               disabled={embed.randomColor}
             />
+            <div>
+              <p className={`ant-statistic-title ${styles.embedCap}`}>
+                Site Name
+              </p>
+
+              <AutoComplete
+                placeholder="Site Name"
+                options={AutoCompleteOptions}
+                className={styles.embedInput}
+                onChange={val => {
+                  if (val.length + embed.title.length > 200) return;
+
+                  user = Object.assign({}, user);
+                  user.settings.embed.siteName = val;
+
+                  setUser(user);
+                }}
+                value={
+                  embed.siteName &&
+                  embed.siteName !== '' &&
+                  embed.siteName !== 'default'
+                    ? embed.siteName
+                    : ''
+                }
+                filterOption={(input, option) => {
+                  return (
+                    input.split(' ').splice(-1)[0].startsWith('{') &&
+                    option.value.startsWith(input.split(' ').splice(-1)) &&
+                    !input.endsWith('}')
+                  );
+                }}
+                onSelect={(_input, option) => {
+                  if (embed.siteName.length > 200) return;
+
+                  user = Object.assign({}, user);
+                  user.settings.embed.siteName = `${
+                    embed.siteName === 'default' ? '' : embed.siteName
+                  }${
+                    embed.siteName.length > 0 && embed.siteName !== 'default'
+                      ? option.value.split(
+                          embed.siteName.split(' ').splice(-1)
+                        )[1]
+                      : option.value
+                  }`;
+
+                  setUser(user);
+                }}
+              >
+                <TextArea allowClear />
+              </AutoComplete>
+            </div>
+
+            <div>
+              <p className={`ant-statistic-title ${styles.embedCap}`}>
+                Embed Author
+              </p>
+
+              <AutoComplete
+                placeholder="Author"
+                options={AutoCompleteOptions}
+                className={styles.embedInput}
+                onChange={val => {
+                  if (val.length + embed.title.length > 200) return;
+
+                  user = Object.assign({}, user);
+                  user.settings.embed.author = val;
+
+                  setUser(user);
+                }}
+                value={
+                  embed.author &&
+                  embed.author !== '' &&
+                  embed.author !== 'default'
+                    ? embed.author
+                    : ''
+                }
+                filterOption={(input, option) => {
+                  return (
+                    input.split(' ').splice(-1)[0].startsWith('{') &&
+                    option.value.startsWith(input.split(' ').splice(-1)) &&
+                    !input.endsWith('}')
+                  );
+                }}
+                onSelect={(_input, option) => {
+                  if (embed.author.length > 200) return;
+
+                  user = Object.assign({}, user);
+                  user.settings.embed.author = `${
+                    embed.author === 'default' ? '' : embed.author
+                  }${
+                    embed.author.length > 0 && embed.author !== 'default'
+                      ? option.value.split(
+                          embed.author.split(' ').splice(-1)
+                        )[1]
+                      : option.value
+                  }`;
+
+                  setUser(user);
+                }}
+              >
+                <TextArea allowClear />
+              </AutoComplete>
+            </div>
 
             <div>
               <p className={`ant-statistic-title ${styles.embedCap}`}>
@@ -713,58 +817,6 @@ export default function General() {
                 <TextArea allowClear />
               </AutoComplete>
             </div>
-
-            <div>
-              <p className={`ant-statistic-title ${styles.embedCap}`}>
-                Embed Author
-              </p>
-
-              <AutoComplete
-                placeholder="Author"
-                options={AutoCompleteOptions}
-                className={styles.embedInput}
-                onChange={val => {
-                  if (val.length + embed.title.length > 200) return;
-
-                  user = Object.assign({}, user);
-                  user.settings.embed.author = val;
-
-                  setUser(user);
-                }}
-                value={
-                  embed.author &&
-                  embed.author !== '' &&
-                  embed.author !== 'default'
-                    ? embed.author
-                    : ''
-                }
-                filterOption={(input, option) => {
-                  return (
-                    input.split(' ').splice(-1)[0].startsWith('{') &&
-                    option.value.startsWith(input.split(' ').splice(-1)) &&
-                    !input.endsWith('}')
-                  );
-                }}
-                onSelect={(_input, option) => {
-                  if (embed.author.length > 200) return;
-
-                  user = Object.assign({}, user);
-                  user.settings.embed.author = `${
-                    embed.author === 'default' ? '' : embed.author
-                  }${
-                    embed.author.length > 0 && embed.author !== 'default'
-                      ? option.value.split(
-                          embed.author.split(' ').splice(-1)
-                        )[1]
-                      : option.value
-                  }`;
-
-                  setUser(user);
-                }}
-              >
-                <TextArea allowClear />
-              </AutoComplete>
-            </div>
           </div>
 
           <div
@@ -772,16 +824,20 @@ export default function General() {
             style={
               (embed.title !== '' &&
                 embed.description === '' &&
-                embed.author === '') ||
+                embed.author === '' &&
+                embed.siteName === '') ||
               (embed.title === '' &&
                 embed.description !== '' &&
-                embed.author === '') ||
+                embed.author === '' &&
+                embed.siteName === '') ||
               (embed.title === '' &&
                 embed.description === '' &&
-                embed.author !== '') ||
+                embed.author !== '' &&
+                embed.siteName === '') ||
               (embed.title === '' &&
                 embed.description === '' &&
-                embed.author === '')
+                embed.author === '' &&
+                embed.siteName !== '')
                 ? {
                     borderLeft: `5px solid ${
                       embed.randomColor
@@ -798,7 +854,24 @@ export default function General() {
                   }
             }
           >
-            {embed.author !== '' && (
+            {
+              <span
+                className={styles.embedSitename}
+                style={
+                  !embed.description
+                    ? {
+                        marginTop: '20px',
+                      }
+                    : null
+                }
+              >
+                {embed.siteName === 'default'
+                  ? 'imgs.bar'
+                  : formatEmbedField(embed.siteName)}
+              </span>
+            }
+
+            {embed.author !== 'test' && (
               <span className={styles.embedAuthor}>
                 {embed.author === 'default'
                   ? user.username
@@ -806,7 +879,7 @@ export default function General() {
               </span>
             )}
 
-            {embed.title !== '' && (
+            {
               <span
                 className={styles.embedTitle}
                 style={
@@ -821,9 +894,9 @@ export default function General() {
                   ? 'file.png'
                   : formatEmbedField(embed.title)}
               </span>
-            )}
+            }
 
-            {embed.description !== '' && (
+            {embed.description !== 'test' && (
               <span
                 className={styles.embedDescription}
                 style={
@@ -846,21 +919,26 @@ export default function General() {
               style={
                 embed.title === '' ||
                 embed.description === '' ||
-                embed.author === ''
+                embed.author === '' ||
+                embed.siteName === ''
                   ? {
                       width:
                         (embed.title !== '' &&
                           embed.description === '' &&
-                          embed.author === '') ||
+                          embed.author === '' &&
+                          embed.siteName === '') ||
                         (embed.title === '' &&
                           embed.description !== '' &&
-                          embed.author === '') ||
+                          embed.author === '' &&
+                          embed.siteName === '') ||
                         (embed.title === '' &&
                           embed.description === '' &&
-                          embed.author !== '') ||
+                          embed.author !== '' &&
+                          embed.siteName === '') ||
                         (embed.title === '' &&
                           embed.description === '' &&
-                          embed.author === '')
+                          embed.author === '' &&
+                          embed.siteName !== '')
                           ? '280px'
                           : '250px',
                     }
@@ -868,6 +946,7 @@ export default function General() {
               }
               src="https://imgur.com/yLIXHjk.png"
               className={styles.embedImage}
+              alt={'Preview image'}
             />
           </div>
         </div>

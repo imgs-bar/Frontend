@@ -305,12 +305,14 @@ export default class API {
   async updateEmbed({
     color,
     title,
+    siteName,
     description,
     author,
     randomColor,
   }: {
     color: string;
     title: string;
+    siteName: string;
     description: string;
     author: string;
     randomColor: boolean;
@@ -321,6 +323,7 @@ export default class API {
       body: {
         color,
         title,
+        siteName,
         description,
         author,
         randomColor,
