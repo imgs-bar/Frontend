@@ -141,7 +141,7 @@ export default function Dashboard() {
           className={`ant-btn-link ${styles.actionBtn}`}
           onClick={() => {
             navigator.clipboard.writeText(
-              `https://imgs.bar/?code=${record._id}`
+              `https://imgs.gifts/?code=${record._id}`
             );
 
             notification.success({

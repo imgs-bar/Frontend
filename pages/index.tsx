@@ -260,20 +260,21 @@ export default function Index({code}: {code: any}) {
           <div style={{marginLeft: '8px'}}>
             <img
               className={styles.logo}
-              src="https://cdn.discordapp.com/attachments/824790681129844736/846031528962162708/beeeeeer.png"
+              src=""
               alt=""
             />
           </div>
           <h1 style={{color: 'white'}}>imgs.bar</h1>
           <div style={{marginTop: '8px'}}>
             <Button
+              shape="round"
               size="large"
               icon={<LockOutlined />}
               style={{
                 marginRight: '15px',
-                borderRadius: '5px',
-                height: '40px',
-                borderColor: 'white',
+              //  borderRadius: '3px',
+                //height: '40px',
+                // borderColor: 'white',
               }}
               onClick={() => setState(state => ({...state, showLogin: true}))}
             >
@@ -281,6 +282,7 @@ export default function Index({code}: {code: any}) {
             </Button>
 
             <Button
+              shape="round"
               size="large"
               icon={
                 <SiDiscord
@@ -293,25 +295,26 @@ export default function Index({code}: {code: any}) {
               style={{
                 marginRight: '8px',
                 marginTop: '2px',
-                borderRadius: '5px',
-                height: '40px',
-                borderColor: 'white',
+               // borderRadius: '3px',
+               // height: '40px',
+              // borderColor: 'white',
               }}
               onClick={() =>
-                (window.location.href = 'https://discord.gg/gBfKxyUhZa')
+                (window.location.href = 'https://discord.gg/img')
               }
             >
               Discord
             </Button>
 
             <Button
+              shape="round"
               size="large"
               icon={<UserAddOutlined />}
               style={{
                 marginRight: '15px',
-                borderRadius: '5px',
-                height: '40px',
-                borderColor: 'white',
+                // borderRadius: '3px',
+                // height: '40px',
+               // borderColor: 'white',
               }}
               onClick={() =>
                 setState(state => ({

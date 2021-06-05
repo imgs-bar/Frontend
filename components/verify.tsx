@@ -32,7 +32,7 @@ export default function Verify() {
       <h2>Thank you for registering, just one last step!</h2>
 
       <p className={styles.caption}>
-        Please link your Discord account to flxme.club, this is to verify your
+        Please link your Discord account to imgs.bar, this is to verify your
         identity and join the Discord server.
       </p>
 
