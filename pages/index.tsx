@@ -258,11 +258,7 @@ export default function Index({code}: {code: any}) {
       <div className={styles.container}>
         <main className={styles.main}>
           <div style={{marginLeft: '8px'}}>
-            <img
-              className={styles.logo}
-              src=""
-              alt=""
-            />
+            <img className={styles.logo} src="" alt="" />
           </div>
           <h1 style={{color: 'white'}}>imgs.bar</h1>
           <div style={{marginTop: '8px'}}>
@@ -272,7 +268,7 @@ export default function Index({code}: {code: any}) {
               icon={<LockOutlined />}
               style={{
                 marginRight: '15px',
-              //  borderRadius: '3px',
+                //  borderRadius: '3px',
                 //height: '40px',
                 // borderColor: 'white',
               }}
@@ -295,13 +291,11 @@ export default function Index({code}: {code: any}) {
               style={{
                 marginRight: '8px',
                 marginTop: '2px',
-               // borderRadius: '3px',
-               // height: '40px',
-              // borderColor: 'white',
+                // borderRadius: '3px',
+                // height: '40px',
+                // borderColor: 'white',
               }}
-              onClick={() =>
-                (window.location.href = 'https://discord.gg/img')
-              }
+              onClick={() => (window.location.href = 'https://discord.gg/img')}
             >
               Discord
             </Button>
@@ -314,7 +308,7 @@ export default function Index({code}: {code: any}) {
                 marginRight: '15px',
                 // borderRadius: '3px',
                 // height: '40px',
-               // borderColor: 'white',
+                // borderColor: 'white',
               }}
               onClick={() =>
                 setState(state => ({
