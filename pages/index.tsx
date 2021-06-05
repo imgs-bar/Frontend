@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
-import API, {APIError, register as registerUser} from '../api';
+import API, {
+  APIError,
+  register as registerUser,
+  sendPasswordReset,
+} from '../api';
 import {Button, Modal, Form, Input, notification} from 'antd';
 import {
   CheckOutlined,
@@ -21,6 +25,7 @@ export default function Index({code}: {code: any}) {
   const initialState = {
     showLogin: false,
     showRegister: false,
+    showPasswordReset: false,
     username: '',
     password: '',
     email: '',
@@ -28,11 +33,20 @@ export default function Index({code}: {code: any}) {
   };
 
   const [
-    {showLogin, username, password, email, invite, showRegister},
+    {
+      showLogin,
+      username,
+      password,
+      email,
+      invite,
+      showRegister,
+      showPasswordReset,
+    },
     setState,
   ] = useState(initialState);
   const router = useRouter();
   const [form] = useForm();
+  const [passwordResetForm] = useForm();
   const {user, setUser} = useUser();
   const [bruh, confirmBruh] = React.useState(false);
   const [bruhReg, confirmBruhReg] = React.useState(false);
@@ -69,6 +83,17 @@ export default function Index({code}: {code: any}) {
     setState(state => ({
       ...state,
       [property]: val,
+    }));
+  };
+
+  const closeModal = () => {
+    form.resetFields();
+    passwordResetForm.resetFields();
+
+    setState(() => ({
+      ...initialState,
+      showModal: false,
+      resetPasswordModal: false,
     }));
   };
 
@@ -193,6 +218,33 @@ export default function Index({code}: {code: any}) {
           message: 'Something went wrong',
           description: err.message,
         });
+    }
+  };
+
+  const resetPassword = async () => {
+    try {
+      await passwordResetForm.validateFields();
+      const data = await sendPasswordReset(email);
+
+      if (data.success)
+        notification.success({
+          message: 'Success',
+          description:
+            "If a user exist with that email we'll send over the password reset instructions.",
+        });
+    } catch (err) {
+      if (err instanceof APIError)
+        return notification.error({
+          message: 'Something went wrong',
+          description: err.message,
+        });
+
+      notification.error({
+        message: 'Provide the required fields',
+        description:
+          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
+          '.',
+      });
     }
   };
 
@@ -334,6 +386,20 @@ export default function Index({code}: {code: any}) {
                       onChange={val => setInput('password', val.target.value)}
                     />
                   </Form.Item>
+                  <Button
+                    type="link"
+                    className={styles.forgotPassword}
+                    onClick={() =>
+                      setState(state => ({
+                        ...state,
+                        showLogin: false,
+                        showPasswordReset: true,
+                      }))
+                    }
+                  >
+                    Reset your forgotten password
+                  </Button>
+
                   <Form.Item>
                     <Button
                       block
@@ -487,6 +553,40 @@ export default function Index({code}: {code: any}) {
                 </Form>
               }
             />
+            <Modal
+              centered
+              title="Reset your password"
+              visible={showPasswordReset}
+              onCancel={closeModal}
+              footer={null}
+            >
+              <Form form={passwordResetForm}>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Provide a valid email',
+                      type: 'email',
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="Email"
+                    onPressEnter={resetPassword}
+                    prefix={<MailOutlined />}
+                    onChange={val => setInput('email', val.target.value)}
+                  />
+                </Form.Item>
+
+                <Form.Item style={{marginBottom: '5px'}}>
+                  <Button block size="large" onClick={resetPassword}>
+                    Reset Password
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Modal>
           </div>
         </main>
       </div>

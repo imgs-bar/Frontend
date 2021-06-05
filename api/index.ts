@@ -69,6 +69,35 @@ async function sendPasswordReset(email: string) {
 }
 
 /**
+ * Reset a user's password.
+ * @param {string} key The password reset key.
+ * @param {string} password The password.
+ * @param {string} confirmPassword The password confirmation.
+ */
+async function resetPassword(
+  key: string,
+  password: string,
+  confirmPassword: string
+) {
+  try {
+    const {data} = await Axios.post(
+      `${process.env.BACKEND_URL}/auth/password_resets/reset`,
+      {
+        key,
+        password,
+        confirmPassword,
+      }
+    );
+
+    return data;
+  } catch (a) {
+    const err = a.response.data.error;
+
+    throw new APIError(`${err.charAt(0).toUpperCase() + err.slice(1)}.`);
+  }
+}
+
+/**
  * The class for api errors.
  */
 export class APIError extends Error {
@@ -484,4 +513,4 @@ export default class API {
   }
 }
 
-export {register, sendPasswordReset};
+export {register, sendPasswordReset, resetPassword};
