@@ -16,16 +16,16 @@ Sentry.init({
   integrations: [new Integrations.BrowserTracing()],
 });
 
-LogRocket.init('8aprw6/imgsbar', {
-  shouldCaptureIP: false,
-});
-setupLogRocketReact(LogRocket);
+//LogRocket.init('8aprw6/imgsbar', {
+//  shouldCaptureIP: false,
+//});
+//setupLogRocketReact(LogRocket);
 
-LogRocket.getSessionURL(sessionURL => {
-  Sentry.configureScope(scope => {
-    scope.setExtra('sessionURL', sessionURL);
-  });
-});
+//LogRocket.getSessionURL(sessionURL => {
+//  Sentry.configureScope(scope => {
+//    scope.setExtra('sessionURL', sessionURL);
+//  });
+//});
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -83,30 +83,20 @@ export default function App({Component, pageProps}) {
     <>
       <NextSeo
         title="imgs.bar"
-        description="A private image host"
+        description="One of the best invite-only image hosts around! With 200+ domains, and an amazing community!"
         additionalMetaTags={[
           {
             property: 'theme-color',
-            content: '#a058db',
+            content: '#005b96',
           },
         ]}
         openGraph={{
-          title: 'imgs.bar Image Host',
+          title: 'imgs.bar invite-only host.',
           description:
-            'imgs.bar a new image host with alot of features. - discord.gg/gBfKxyUhZa.',
-          images: [
-            {
-              url: 'https://cdn.discordapp.com/attachments/824790681129844736/846196883150864395/imgsbar.png',
-            },
-          ],
+            'One of the best invite-only image hosts around! With 200+ domains, and an amazing community!',
         }}
       />
       {/* eslint-disable-next-line node/no-unsupported-features/node-builtins */}
-      {console.log(
-        '\n%cWelcome to\n%cimgs.bar\n',
-        'font-size: 15px; color: black; font-weight: bold',
-        'font-size: 36px; color: black; font-weight: bold'
-      )}
       {loading ? (
         <Loading />
       ) : (
