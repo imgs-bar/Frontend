@@ -295,7 +295,7 @@ export default function Index({code}: {code: any}) {
                 // height: '40px',
                 // borderColor: 'white',
               }}
-              onClick={() => (window.location.href = 'https://discord.gg/img')}
+              onClick={() => (window.location.href = 'https://discord.gg/imgs')}
             >
               Discord
             </Button>
