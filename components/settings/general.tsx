@@ -142,6 +142,7 @@ export default function General() {
       'longUrl',
       'showLink',
       'invisibleUrl',
+      'emojiUrl',
       'embeds',
       'autoWipe',
       'randomDomain',
@@ -450,6 +451,22 @@ export default function General() {
                 className={styles.switchChild}
               />
             </div>
+
+            <div className={styles.switch}>
+              <Tooltip
+                placement="topRight"
+                title="Emoji Url will make your filename random emojis."
+              >
+                <p style={{cursor: 'pointer'}}>Emoji URL</p>
+              </Tooltip>
+
+              <Switch
+                defaultChecked={user.settings.emojiUrl}
+                onClick={val => enable('emojiUrl', val)}
+                className={styles.switchChild}
+              />
+            </div>
+
             <div className={styles.switch}>
               {user.settings.fakeUrl.enabled && (
                 <Button
