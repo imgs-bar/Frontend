@@ -196,6 +196,7 @@ interface User {
     };
     showLink: boolean;
     invisibleUrl: boolean;
+    emojiUrl: boolean;
     longUrl: boolean;
   };
 }
