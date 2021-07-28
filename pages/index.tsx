@@ -2,30 +2,28 @@ import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import API, {
+  sendPasswordReset,
   APIError,
   register as registerUser,
-  sendPasswordReset,
 } from '../api';
-import {Button, Modal, Form, Input, notification} from 'antd';
+import {Button, Modal, Tabs, Form, Input, notification} from 'antd';
 import {
   CheckOutlined,
   LockOutlined,
   MailOutlined,
-  UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import {SiDiscord} from 'react-icons/si';
 import {useRouter} from 'next/router';
 import {useUser} from '../components/user';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 const {useForm} = Form;
+const {TabPane} = Tabs;
 
-export default function Index({code}: {code: any}) {
+export default function Index({code}) {
   const initialState = {
-    showLogin: false,
-    showRegister: false,
-    showPasswordReset: false,
+    showModal: false,
+    resetPasswordModal: false,
     username: '',
     password: '',
     email: '',
@@ -33,15 +31,7 @@ export default function Index({code}: {code: any}) {
   };
 
   const [
-    {
-      showLogin,
-      username,
-      password,
-      email,
-      invite,
-      showRegister,
-      showPasswordReset,
-    },
+    {showModal, resetPasswordModal, username, password, email, invite},
     setState,
   ] = useState(initialState);
   const router = useRouter();
@@ -50,41 +40,14 @@ export default function Index({code}: {code: any}) {
   const {user, setUser} = useUser();
   const [bruh, confirmBruh] = React.useState(false);
   const [bruhReg, confirmBruhReg] = React.useState(false);
-  const loginRecaptchaRef = React.createRef<ReCAPTCHA>(),
-    registerRecaptchaRef = React.createRef<ReCAPTCHA>();
 
   useEffect(() => {
     if (user) {
       router.push('/dashboard');
     } else if (code) {
-      setState(state => ({...state, invite: code, showRegister: true}));
+      setState(state => ({...state, invite: code, showModal: true}));
     }
   }, []);
-
-  const closeLogin = () => {
-    form.resetFields();
-
-    setState(() => ({
-      ...initialState,
-      showLogin: false,
-    }));
-  };
-
-  const closeRegister = () => {
-    form.resetFields();
-
-    setState(() => ({
-      ...initialState,
-      showRegister: false,
-    }));
-  };
-
-  const setInput = (property: string, val: string) => {
-    setState(state => ({
-      ...state,
-      [property]: val,
-    }));
-  };
 
   const closeModal = () => {
     form.resetFields();
@@ -94,6 +57,22 @@ export default function Index({code}: {code: any}) {
       ...initialState,
       showModal: false,
       resetPasswordModal: false,
+    }));
+  };
+
+  const resetForms = () => {
+    form.resetFields();
+
+    setState(() => ({
+      ...initialState,
+      showModal: true,
+    }));
+  };
+
+  const setInput = (property: string, val: string) => {
+    setState(state => ({
+      ...state,
+      [property]: val,
     }));
   };
 
@@ -123,35 +102,16 @@ export default function Index({code}: {code: any}) {
       setTimeout(() => {
         refreshToken();
       }, 780000);
-      // eslint-disable-next-line no-empty
-    } catch (ignored) {}
+    } catch (err) {}
   };
 
-  const doLoginCaptcha = async (event: {preventDefault: () => void}) => {
-    event.preventDefault();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    loginRecaptchaRef.current.execute();
-  };
-
-  const doRegisterCaptcha = async (event: {preventDefault: () => void}) => {
-    event.preventDefault();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    registerRecaptchaRef.current.execute();
-  };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const login = async captchaCode => {
-    if (!captchaCode) {
-      return;
-    }
+  const login = async () => {
     confirmBruh(true);
     try {
       await form.validateFields(['username', 'password']);
 
       const api = new API();
-      const data = await api.login(username, password, captchaCode);
+      const data = await api.login(username, password);
       const {images, motd} = await api.getImages();
       const {invites} = await api.getInvites();
       const {domains} = await api.getDomains();
@@ -177,33 +137,27 @@ export default function Index({code}: {code: any}) {
       }
     } catch (err) {
       confirmBruh(false);
-      loginRecaptchaRef.current?.reset();
 
       if (err instanceof APIError)
         return notification.error({
           message: 'Something went wrong',
           description: err.message,
         });
+
+      notification.error({
+        message: 'Provide the required fields',
+        description:
+          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
+          '.',
+      });
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const register = async captchaCode => {
-    if (!captchaCode) {
-      return;
-    }
-
+  const register = async () => {
     confirmBruhReg(true);
     try {
       await form.validateFields();
-      const data = await registerUser(
-        username,
-        password,
-        email,
-        invite,
-        captchaCode
-      );
+      const data = await registerUser(username, password, email, invite);
       if (data.success)
         notification.success({
           message: 'Success',
@@ -211,13 +165,19 @@ export default function Index({code}: {code: any}) {
         });
       confirmBruhReg(false);
     } catch (err) {
-      registerRecaptchaRef.current?.reset();
       confirmBruhReg(false);
       if (err instanceof APIError)
         return notification.error({
           message: 'Something went wrong',
           description: err.message,
         });
+
+      notification.error({
+        message: 'Provide the required fields',
+        description:
+          filter(err.errorFields.map((e: any) => e.errors.join())).join(', ') +
+          '.',
+      });
     }
   };
 
@@ -251,100 +211,72 @@ export default function Index({code}: {code: any}) {
   if (user) return null;
 
   return (
-    <>
+    <div className={styles.container}>
       <Head>
-        <title>imgs.bar - Home</title>
+        <title>imgs.bar</title>
+        <meta name="og:title" content="Higure, a private file host." />
+        <meta
+          name="og:description"
+          content="Higure is a simple and powerful file hosting platform, with great support, competent developers, and a welcoming community."
+        />
+        <meta name="theme-color" content="#39e66a" />
       </Head>
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <div style={{marginLeft: '8px'}}>
-            <img className={styles.logo} src="" alt="" />
-          </div>
-          <h1 style={{color: 'white'}}>imgs.bar</h1>
-          <div style={{marginTop: '8px'}}>
-            <Button
-              shape="round"
-              size="large"
-              icon={<LockOutlined />}
-              style={{
-                marginRight: '15px',
-                //  borderRadius: '3px',
-                //height: '40px',
-                // borderColor: 'white',
-              }}
-              onClick={() => setState(state => ({...state, showLogin: true}))}
-            >
-              Login
-            </Button>
 
-            <Button
-              shape="round"
-              size="large"
-              icon={
-                <SiDiscord
-                  style={{
-                    marginRight: '10px',
-                    marginBottom: '-3px',
-                  }}
-                />
-              }
-              style={{
-                marginRight: '8px',
-                marginTop: '2px',
-                // borderRadius: '3px',
-                // height: '40px',
-                // borderColor: 'white',
-              }}
-              onClick={() => (window.location.href = 'https://discord.gg/imgs')}
-            >
-              Discord
-            </Button>
-
-            <Button
-              shape="round"
-              size="large"
-              icon={<UserAddOutlined />}
-              style={{
-                marginRight: '15px',
-                // borderRadius: '3px',
-                // height: '40px',
-                // borderColor: 'white',
-              }}
-              onClick={() =>
-                setState(state => ({
-                  ...state,
-                  showRegister: true,
-                }))
-              }
-            >
-              Register
-            </Button>
-            <Modal
+      <main className={styles.main}>
+        <div style={{marginLeft: '8px'}}>
+          <img
+            className={styles.logo}
+            src="https://media.discordapp.net/attachments/821328760707874876/821390673580130324/higure._7.png"
+            alt=""
+          />
+        </div>
+        <h1>imgs.bar</h1>
+        <div style={{marginTop: '8px'}}>
+          <Button
+            size="large"
+            icon={<LockOutlined />}
+            style={{
+              backgroundColor: '#181f29',
+              marginRight: '15px',
+              borderRadius: '8px',
+              height: '38px',
+              borderColor: '#181f29',
+            }}
+            onClick={() => setState(state => ({...state, showModal: true}))}
+          >
+            Login/Register
+          </Button>
+          <Button
+            size="large"
+            icon={<SiDiscord style={{marginRight: '8px', marginTop: '2px'}} />}
+            style={{
+              backgroundColor: '#181f29',
+              marginRight: '-5px',
+              borderRadius: '8px',
+              height: '38px',
+              borderColor: '#181f29',
+            }}
+            onClick={() => (window.location.href = 'https://discord.gg/imgs')}
+          >
+            Join our Discord
+          </Button>
+        </div>
+        <Modal
+          centered
+          style={{backgroundColor: '#181f29', border: 0}}
+          className="authModal"
+          visible={showModal}
+          onCancel={closeModal}
+          footer={null}
+          title={
+            <Tabs
               centered
-              style={{border: 0}}
-              className="authModal"
-              visible={showLogin}
-              onCancel={closeLogin}
-              title={
-                <h2
-                  style={{
-                    marginTop: '8px',
-                    marginLeft: '-5px',
-                  }}
-                >
-                  Login
-                </h2>
-              }
-              footer={
+              defaultActiveKey={code ? '2' : '1'}
+              type="card"
+              onTabClick={resetForms}
+            >
+              <TabPane tab="Login" key="1">
                 <Form form={form} name="login" style={{marginTop: '10px'}}>
-                  <ReCAPTCHA
-                    size="invisible"
-                    sitekey={'6LfOSuQaAAAAADCare4jtQMneJ0chlY2QEbuIOug'}
-                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-ignore
-                    ref={loginRecaptchaRef}
-                    onChange={login}
-                  />
                   <Form.Item
                     name="username"
                     rules={[
@@ -357,12 +289,13 @@ export default function Index({code}: {code: any}) {
                   >
                     <Input
                       size="large"
-                      onPressEnter={doLoginCaptcha}
+                      onPressEnter={login}
                       placeholder="Username"
                       prefix={<UserOutlined />}
                       onChange={val => setInput('username', val.target.value)}
                     />
                   </Form.Item>
+
                   <Form.Item
                     name="password"
                     rules={[
@@ -377,90 +310,53 @@ export default function Index({code}: {code: any}) {
                   >
                     <Input.Password
                       size="large"
-                      onPressEnter={doLoginCaptcha}
+                      onPressEnter={login}
                       placeholder="Password"
                       prefix={<LockOutlined />}
                       onChange={val => setInput('password', val.target.value)}
                     />
                   </Form.Item>
-                  <Button
-                    type="link"
-                    className={styles.forgotPassword}
-                    onClick={() =>
-                      setState(state => ({
-                        ...state,
-                        showLogin: false,
-                        showPasswordReset: true,
-                      }))
-                    }
-                  >
-                    Reset your forgotten password
-                  </Button>
 
                   <Form.Item>
                     <Button
-                      block
-                      size="large"
-                      onClick={doLoginCaptcha}
-                      loading={bruh}
+                      type="link"
+                      className={styles.forgotPassword}
+                      onClick={() =>
+                        setState(state => ({
+                          ...state,
+                          showModal: false,
+                          resetPasswordModal: true,
+                        }))
+                      }
                     >
+                      Forgot your password? Reset
+                    </Button>
+
+                    <Button block size="large" onClick={login} loading={bruh}>
                       Login
                     </Button>
 
                     <Button
                       href={`${process.env.BACKEND_URL}/auth/discord/login`}
-                      icon={
-                        <SiDiscord
-                          style={{
-                            marginRight: '8px',
-                            marginTop: '8px',
-                            marginBottom: '-4px',
-                          }}
-                        />
-                      }
+                      icon={<SiDiscord style={{marginRight: '8px'}} />}
                       type="primary"
                       block
                       size="large"
                       style={{
                         marginTop: '10px',
                         marginBottom: '-35px',
-                        backgroundColor: '#5865F2',
+                        backgroundColor: '#7289DA',
                         border: 'none',
-                        marginLeft: '-20px',
                       }}
                     >
-                      Authenticate via Discord
+                      Login with Discord
                     </Button>
                   </Form.Item>
                 </Form>
-              }
-            />
-            <Modal
-              centered
-              style={{border: 0}}
-              className="authModal"
-              visible={showRegister}
-              onCancel={closeRegister}
-              title={
-                <h2
-                  style={{
-                    marginTop: '8px',
-                    marginLeft: '-5px',
-                  }}
-                >
-                  Register
-                </h2>
-              }
-              footer={
-                <Form form={form} name="register" style={{marginTop: '10px'}}>
-                  <ReCAPTCHA
-                    size="invisible"
-                    sitekey={'6LfOSuQaAAAAADCare4jtQMneJ0chlY2QEbuIOug'}
-                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-ignore
-                    ref={registerRecaptchaRef}
-                    onChange={register}
-                  />
+              </TabPane>
+
+              <TabPane tab="Register" key="2">
+                <Form form={form} name="login" style={{marginTop: '10px'}}>
                   <Form.Item
                     name="username"
                     rules={[
@@ -474,7 +370,7 @@ export default function Index({code}: {code: any}) {
                     <Input
                       size="large"
                       placeholder="Username"
-                      onPressEnter={doRegisterCaptcha}
+                      onPressEnter={register}
                       prefix={<UserOutlined />}
                       onChange={val => setInput('username', val.target.value)}
                     />
@@ -495,7 +391,7 @@ export default function Index({code}: {code: any}) {
                     <Input.Password
                       size="large"
                       placeholder="Password"
-                      onPressEnter={doRegisterCaptcha}
+                      onPressEnter={register}
                       prefix={<LockOutlined />}
                       onChange={val => setInput('password', val.target.value)}
                     />
@@ -514,7 +410,7 @@ export default function Index({code}: {code: any}) {
                     <Input
                       size="large"
                       placeholder="Email"
-                      onPressEnter={doRegisterCaptcha}
+                      onPressEnter={register}
                       prefix={<MailOutlined />}
                       onChange={val => setInput('email', val.target.value)}
                     />
@@ -530,7 +426,7 @@ export default function Index({code}: {code: any}) {
                     <Input
                       size="large"
                       placeholder="Invite"
-                      onPressEnter={doRegisterCaptcha}
+                      onPressEnter={register}
                       prefix={<CheckOutlined />}
                       onChange={val => setInput('invite', val.target.value)}
                     />
@@ -540,7 +436,7 @@ export default function Index({code}: {code: any}) {
                     <Button
                       block
                       size="large"
-                      onClick={doRegisterCaptcha}
+                      onClick={register}
                       style={{marginBottom: '-30px'}}
                       loading={bruhReg}
                     >
@@ -548,49 +444,51 @@ export default function Index({code}: {code: any}) {
                     </Button>
                   </Form.Item>
                 </Form>
-              }
-            />
-            <Modal
-              centered
-              title="Reset your password"
-              visible={showPasswordReset}
-              onCancel={closeModal}
-              footer={null}
-            >
-              <Form form={passwordResetForm}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Provide a valid email',
-                      type: 'email',
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="Email"
-                    onPressEnter={resetPassword}
-                    prefix={<MailOutlined />}
-                    onChange={val => setInput('email', val.target.value)}
-                  />
-                </Form.Item>
+              </TabPane>
+            </Tabs>
+          }
+        />
 
-                <Form.Item style={{marginBottom: '5px'}}>
-                  <Button block size="large" onClick={resetPassword}>
-                    Reset Password
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-          </div>
-        </main>
-      </div>
-    </>
+        <Modal
+          centered
+          title="Reset your password"
+          visible={resetPasswordModal}
+          onCancel={closeModal}
+          footer={null}
+        >
+          <Form form={passwordResetForm}>
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Provide a valid email',
+                  type: 'email',
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                placeholder="Email"
+                onPressEnter={resetPassword}
+                prefix={<MailOutlined />}
+                onChange={val => setInput('email', val.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item style={{marginBottom: '5px'}}>
+              <Button block size="large" onClick={resetPassword}>
+                Reset Password
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </main>
+    </div>
   );
 }
-export async function getServerSideProps({query}: {query: any}) {
+
+export async function getServerSideProps({query}) {
   const {code} = query;
 
   return {

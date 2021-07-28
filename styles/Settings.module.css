@@ -15,7 +15,11 @@
 }
 
 .settings {
-  background-color: rgb(24, 24, 24);
+   background: url(https://cdn.imgs.bar/imgs/0f78fb54-a304-4aa9-a428-bad992b67be0/e4ec675.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   display: flex;
   flex-direction: column;
 }
@@ -27,6 +31,7 @@
 }
 
 .section {
+  width: 70%;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
@@ -36,7 +41,7 @@
   margin-right: 40px;
   margin-left: 40px;
   margin-bottom: 20px;
-  background: rgb(19, 19, 19);
+  background: #181f29;
 }
 
 .fakeUrlSettings {

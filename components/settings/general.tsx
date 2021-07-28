@@ -43,10 +43,11 @@ export default function General() {
     autoWipeManager: false,
     embedEditor: false,
     fakeUrlManager: false,
+    configModal: false,
   };
 
   const [
-    {selectedDomain, autoWipeManager, embedEditor, fakeUrlManager},
+    {selectedDomain, autoWipeManager, embedEditor, fakeUrlManager, configModal},
     setState,
   ] = useState(initialState);
 
@@ -322,29 +323,44 @@ export default function General() {
   return (
     <div>
       <div className={styles.section}>
-        <h1 className={styles.title}>Config Generator</h1>
-        <p className={styles.caption}>
-          Click on the button to download the config.
-        </p>
+        <h1 className={styles.title}>Configs</h1>
+        <p className={styles.caption}>Download a config</p>
 
         <Button
-          href={`${process.env.BACKEND_URL}/files/config?key=${user.key}`}
+          onClick={() => setState(state => ({...state, configModal: true}))}
           className={styles.btn}
           icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
         >
-          <span style={{paddingTop: '2px'}}>Download ShareX Config</span>
-        </Button>
-
-        <Button
-          href={
-            'https://www.icloud.com/shortcuts/440688b319cc4e079273cb09ead277f4'
-          }
-          className={styles.btn}
-          icon={<DownloadOutlined style={{paddingTop: '3px'}} />}
-        >
-          <span style={{paddingTop: '2px'}}>Download iOS Shortcut</span>
+          <span style={{paddingTop: '2px'}}>Download</span>
         </Button>
       </div>
+
+      <Modal
+        className="configModal"
+        footer={null}
+        title="Configs"
+        visible={configModal}
+        onCancel={() => setState(state => ({...state, configModal: false}))}
+      >
+        <div className={styles.previewCon}>
+          <div>
+            <Button
+              href={`${process.env.BACKEND_URL}/files/config?key=${user.key}`}
+              className={styles.btn}
+            >
+              <span style={{paddingTop: '2px'}}>ShareX</span>
+            </Button>
+            <Button
+              href={
+                'https://www.icloud.com/shortcuts/440688b319cc4e079273cb09ead277f4'
+              }
+              className={styles.btn}
+            >
+              <span style={{paddingTop: '2px'}}>iOS Shortcut</span>
+            </Button>
+          </div>
+        </div>
+      </Modal>
 
       <div className={styles.section}>
         <h1 className={styles.title}>Domain Preferences</h1>

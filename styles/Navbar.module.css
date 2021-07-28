@@ -2,7 +2,7 @@
   overflow: auto;
   padding: 0 0px;
   align-items: center;
-  background-color: rgb(20, 20, 20);
+  background: #181f29;
 }
 
 .logo {
@@ -48,8 +48,8 @@
 }
 
 .logoutButton {
-  margin-right: -33px;
-  background-color: rgb(39, 39, 39);
+  margin-right: -15px;
+  background-color: rgb(34, 41, 51);
   border: none;
   font-size: 15px;
   height: 40px;

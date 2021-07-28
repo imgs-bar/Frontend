@@ -8,6 +8,11 @@
 }
 
 .container {
+	    background: url(https://cdn.imgs.bar/imgs/0f78fb54-a304-4aa9-a428-bad992b67be0/e4ec675.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 	animation: fadeInAnimation ease .32s;
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;

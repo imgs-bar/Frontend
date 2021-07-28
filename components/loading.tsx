@@ -8,6 +8,7 @@ export default function Loading() {
   );
 
   const style: any = {
+    background: 'url(https://livewallpaperhd.com/wp-content/uploads/2020/10/Wallpaper-Cool-Dark-HD.jpg) no-repeat center center fixed',
     minHeight: '100vh',
     padding: '0 0.5rem',
     display: 'flex',

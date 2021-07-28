@@ -1,4 +1,9 @@
 .section {
+     background: url(https://livewallpaperhd.com/wp-content/uploads/2020/10/Wallpaper-Cool-Dark-HD.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
@@ -8,7 +13,7 @@
   margin-right: 40px;
   margin-left: 40px;
   margin-bottom: 20px;
-  background: rgb(19, 19, 19);
+  background: #181f29;
 }
 
 .title {

@@ -13,7 +13,7 @@ async function register(
   password: string,
   email: string,
   invite: string,
-  captcha: string
+  // captcha: string
 ) {
   try {
     const {data} = await Axios.post(
@@ -23,7 +23,7 @@ async function register(
         password,
         email,
         invite,
-        captcha,
+        // captcha,
       },
       {
         withCredentials: true,
@@ -178,16 +178,16 @@ export default class API {
    * Send a login request.
    * @param {string} username The user's username.
    * @param {string} password The user's password.
-   * @param {string} captcha The user's captcha
+  //  * @param {string} captcha The user's captcha
    */
-  async login(username: string, password: string, captcha: string) {
+  async login(username: string, password: string) {
     const data = await this.request({
       endpoint: '/auth/login',
       method: 'POST',
       body: {
         username,
         password,
-        captcha,
+        // captcha,
       },
     });
 

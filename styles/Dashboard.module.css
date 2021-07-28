@@ -8,6 +8,11 @@
 }
 
 .container {
+    background: url(https://cdn.imgs.bar/imgs/0f78fb54-a304-4aa9-a428-bad992b67be0/e4ec675.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 	min-height: 100vh;
 	display: flex;
 	color: rgb(214, 214, 214);
@@ -19,14 +24,14 @@
 	animation-iteration-count: 1;
   animation-fill-mode: forwards;
   margin-top: 30px;
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .dashboard .section {
-  width: 96%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   border-radius: 6px;
@@ -35,7 +40,8 @@
   padding-left: 40px;
   margin-top: 5px;
   margin-bottom: 20px;
-  background: rgb(19, 19, 19);
+  margin-left: 550px;
+  background: #181f29;
 }
 
 .title {
@@ -64,7 +70,7 @@
   margin-bottom: 7px;
   margin-left: 20px;
   border-radius: 7px;
-  background-color: rgb(26, 26, 26);
+  background-color: rgb(34, 41, 51);
 }
 
 .statContent {
@@ -98,6 +104,7 @@
   color: #bebebe;
 }
 
+
 @media only screen and (max-width: 1049px) {
   .statsCon {
     flex-direction: column;
@@ -108,11 +115,16 @@
     margin-left: 12px;
     margin-top: 3px;
   }
+  
+.dashboard .section {
+  margin-left: 350px;
+}
 }
 
 @media only screen and (max-width: 1024px) {
   .dashboard .section {
     width: 93%;
+    margin-left: 350px;
   }
 }
 
@@ -124,6 +136,9 @@
   .statsBox {
     margin-left: 15px;
   }
+  .dashboard .section {
+  margin-left: 240px;
+}
 }
 
 @media only screen and (max-width: 395px) {
@@ -131,9 +146,13 @@
     margin-top: 15px;
   }
 
+  .dashboard .section {
+  margin-left: 135px;
+}
+
   .statsCon {
     width: 120%;
-    margin-left: -32px;
+    margin-left: -20px;
   }
 
   .title {

@@ -8,6 +8,11 @@
 }
 
 .container {
+      background: url(https://cdn.imgs.bar/imgs/0f78fb54-a304-4aa9-a428-bad992b67be0/e4ec675.jpg) no-repeat center center fixed;  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 	min-height: 100vh;
 	display: flex;
 	color: rgb(214, 214, 214);
@@ -26,7 +31,7 @@
 }
 
 .page .section {
-  width: 96%;
+  width: 70%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -37,6 +42,7 @@
   margin-top: 5px;
   margin-bottom: 20px;
   background: rgb(19, 19, 19);
+  background: #181f29;
 }
 
 .avatarSection {
